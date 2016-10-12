@@ -1,7 +1,7 @@
 # BasicAudio
 
-Demonstrates how to deal with audio in JUCE. Implements a simple sine wave oscillator from scratch where the frequency and the gain can be controlled using sliders and a checkbox allows to turn it on or off.
+<h3>Additive Synthesis in JUCE - Week 1 homework</h3>
 
----
+<p>A number of sine wave oscillators are played simultaneously and their frequencies and on/off properties are randomised based on a button click.</p>
 
-Implemented by Romain Michon (rmichonATccrmaDOTstanfordDOTedu) for Music 256a / CS 476a (fall 2016).
+<p> Demo can be viewed in this <a href = "https://www.youtube.com/watch?v=SQ6yp9O656w">video</a>. </p>
