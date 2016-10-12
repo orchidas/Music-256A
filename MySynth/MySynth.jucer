@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="wxDpio" name="MySynth" projectType="guiapp" version="1.0.0"
+              bundleIdentifier="com.yourcompany.MySynth" includeBinaryInAppConfig="1"
+              jucerVersion="4.2.4">
+  <MAINGROUP id="DaNWjo" name="MySynth">
+    <GROUP id="{FC6CAA6F-1E04-84CC-62D7-A2A00242A5A5}" name="Source">
+      <FILE id="t2cNFr" name="FaustReverb.h" compile="0" resource="0" file="Source/faust/FaustReverb.h"/>
+      <FILE id="ycVx97" name="Synth.h" compile="0" resource="0" file="Source/faust/Synth.h"/>
+      <FILE id="BtY1Q2" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+      <FILE id="Jysox2" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="MySynth"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="MySynth"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../../../../../opt/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../../../opt/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../../../opt/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../../../opt/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../../../opt/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../../../../opt/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../../../../../opt/JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="../../../../../../opt/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../../../../../opt/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../../../../opt/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../../../../opt/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../../../../opt/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../../../../opt/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../../../../opt/JUCE/modules"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
+    <CODEBLOCKS_LINUX targetFolder="Builds/CodeBlocksLinux">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="MySynth"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="MySynth"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_video" path="../../juce"/>
+        <MODULEPATH id="juce_opengl" path="../../juce"/>
+        <MODULEPATH id="juce_gui_extra" path="../../juce"/>
+        <MODULEPATH id="juce_gui_basics" path="../../juce"/>
+        <MODULEPATH id="juce_graphics" path="../../juce"/>
+        <MODULEPATH id="juce_events" path="../../juce"/>
+        <MODULEPATH id="juce_data_structures" path="../../juce"/>
+        <MODULEPATH id="juce_cryptography" path="../../juce"/>
+        <MODULEPATH id="juce_core" path="../../juce"/>
+        <MODULEPATH id="juce_audio_utils" path="../../juce"/>
+        <MODULEPATH id="juce_audio_processors" path="../../juce"/>
+        <MODULEPATH id="juce_audio_formats" path="../../juce"/>
+        <MODULEPATH id="juce_audio_devices" path="../../juce"/>
+        <MODULEPATH id="juce_audio_basics" path="../../juce"/>
+      </MODULEPATHS>
+    </CODEBLOCKS_LINUX>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_video" showAllCode="1" useLocalCopy="0"/>
+  </MODULES>
+  <JUCEOPTIONS/>
+</JUCERPROJECT>
