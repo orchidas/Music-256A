@@ -16,6 +16,9 @@ void ofApp::setup(){
 
     //setup solar system
     s.setup();
+
+    //setup easyCam for zooming and moving perspective
+    cam.setDistance(700);
 }
 
 //--------------------------------------------------------------
@@ -26,7 +29,12 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    ofPushMatrix();
+    ofTranslate(ofGetWindowWidth()*0.5, ofGetWindowHeight()*0.5);
+    cam.begin();
     s.draw();
+    cam.end();
+    ofPopMatrix();
 
 }
 

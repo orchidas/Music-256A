@@ -35,18 +35,19 @@ public:
         //jupiter radius
         planet[4].setup("Jupiter", "JupiterTexture.jpg", 2.5 * earthRad, 1.6028 * earthSemiMajor, 0.048);
         //saturn radius
-        planet[5].setup("Saturn", "SaturnTexture.jpg", 2 * earthRad, 2.0388 * earthSemiMajor, 0.056);
+        planet[5].setup("Saturn", "SaturnTexture.jpg", 2 * earthRad, 2.0388 * earthSemiMajor, 0.56);
         //uranus radius
-        planet[6].setup("Uranus", "UranusTexture.jpg", 1.5 * earthRad, 2.5914 * earthSemiMajor, 0.46);
+        planet[6].setup("Uranus", "UranusTexture.jpg", 1.5 * earthRad, 2.3914 * earthSemiMajor, 0.76);
         //nepture radius
-        planet[7].setup("Neptune", "NeptuneTexture.jpg",1.25 * earthRad, 3.10611 * earthSemiMajor, 0.80);
+        planet[7].setup("Neptune", "NeptuneTexture.jpg",1.25 * earthRad, 2.70611 * earthSemiMajor, 0.80);
 
     }
 
     void update(){
         sunRotationAngle += 0.1;
-        for(int i = 0; i < nPlanets;i++)
+        for(int i = 0; i < nPlanets;i++){
             planet[i].setRotationAngle(1.2);
+        }
 
         //keep speed of rotation fixed as of now
         planet[0].update(4.14 * earthOrbitAng);
@@ -58,15 +59,15 @@ public:
         planet[6].update(0.012 * earthOrbitAng);
         planet[7].update(0.004 * earthOrbitAng);
 
+
     }
 
     void draw(){
 
         ofPushMatrix();
-            ofTranslate(ofGetWindowWidth()*0.5, ofGetWindowHeight()*0.5);
             //draw the sun
             ofPushMatrix();
-                ofRotateY( sunRotationAngle );
+                ofRotateZ( sunRotationAngle );
                 ofPushStyle(); // Save initial style state
                     //bind sun texture to sphere object
                     sunTexture.bind();
@@ -77,7 +78,7 @@ public:
 
             //draw planets
             for(int i =0; i< nPlanets;i++)
-                planet[i].draw(50*i);
+                planet[i].draw();
 
         ofPopMatrix();
     }
@@ -117,5 +118,6 @@ public:
 
 private:
     SolarSystem s;
+    ofEasyCam cam;
 
 };

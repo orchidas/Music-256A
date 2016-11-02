@@ -59,18 +59,31 @@ public:
         yPos =  b*sin(orbitAngle * PI/180);
     }
 
-    void draw(int zpos){
+    void draw(){
 
         ofPushMatrix(); // Save center state
         //ofRotateZ(orbitAngle);
-        ofTranslate(xPos, yPos, -zpos);
+        ofTranslate(xPos,yPos,0);
 
         ofPushMatrix();
             //rotate about their own axes
-            ofRotateY(rotAngle);
+            ofRotateZ(rotAngle);
             ofPushStyle();
                 texture.bind();
                 planet.draw();
+                texture.unbind();
+            ofPopStyle();
+        ofPopMatrix();
+
+        //draw orbit
+        ofPushMatrix();
+        ofRotateZ(90);
+            ofPushStyle();
+                ofNoFill();
+                ofSetCircleResolution(100);
+                ofSetColor(222,222,222);
+                ofDrawEllipse(0, 0, 0, 2*b, 2*a);
+
             ofPopStyle();
         ofPopMatrix();
 
@@ -105,8 +118,8 @@ public:
                     mesh.addVertex(p);//output vertex
                     mesh.addTexCoord(ofVec2f((cosf(theta)+1.0)*0.5, (sinf(theta)+1.0)*0.5));
                 }
-                ofTranslate(xPos, yPos, -250);
-                ofRotateX(90);
+                ofTranslate(xPos, yPos, 0);
+                ofRotateZ(90);
                 mesh.draw();
                 ofPopMatrix();
         }
