@@ -2,6 +2,17 @@
 
 #include "ofMain.h"
 #include "planet.h"
+#include "ofxFft.h"
+#include "ofxStk.h"
+
+//-----------------------------------------------------------------------------
+// Preprocessor definitions
+//-----------------------------------------------------------------------------
+#define MY_SRATE         44100           // sample rate
+#define MY_CHANNELS      2                // number of channels
+#define MY_BUFFERHISTORY 50               // number of buffers to save
+#define MY_BUFFERSIZE    512              // number of frames in a buffer
+#define MY_NBUFFERS      2                // number of buffers latency
 
 //create class SolarSystem
 class SolarSystem{
@@ -43,21 +54,21 @@ public:
 
     }
 
-    void update(){
+    void update(float* orbSpeed){
         sunRotationAngle += 0.1;
         for(int i = 0; i < nPlanets;i++){
             planet[i].setRotationAngle(1.2);
         }
 
         //keep speed of rotation fixed as of now
-        planet[0].update(4.14 * earthOrbitAng);
-        planet[1].update(1.63 * earthOrbitAng);
-        planet[2].update(1.0 * earthOrbitAng);
-        planet[3].update(0.531 * earthOrbitAng);
-        planet[4].update(0.084 * earthOrbitAng);
-        planet[5].update(0.034 * earthOrbitAng);
-        planet[6].update(0.012 * earthOrbitAng);
-        planet[7].update(0.004 * earthOrbitAng);
+        planet[0].update(4.14 * (earthOrbitAng + orbSpeed[0]));
+        planet[1].update(1.63 * (earthOrbitAng + orbSpeed[1]));
+        planet[2].update(1.0 * (earthOrbitAng + orbSpeed[2]));
+        planet[3].update(0.531 * (earthOrbitAng + orbSpeed[3]));
+        planet[4].update(0.084 * (earthOrbitAng + orbSpeed[4]));
+        planet[5].update(0.034 * (earthOrbitAng + orbSpeed[5]));
+        planet[6].update(0.012 * (earthOrbitAng + orbSpeed[6]));
+        planet[7].update(0.004 * (earthOrbitAng + orbSpeed[7]));
 
 
     }
@@ -83,6 +94,11 @@ public:
         ofPopMatrix();
     }
 
+    const int getNplanets(){
+        return nPlanets;
+    }
+
+
 private:
     //Member variables
     ofSpherePrimitive sun;
@@ -103,6 +119,8 @@ public:
     void setup();
     void update();
     void draw();
+    //add this explicitly to destroy objects
+    void exit();
 
     void keyPressed(int key);
     void keyReleased(int key);
@@ -116,8 +134,33 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
 
+    // Get audio input samples
+    void audioIn(float * input, int bufferSize, int nChannels);
+    // Send audio output samples
+    void audioOut(float *output, int bufferSize, int nChannels);
+
+
 private:
     SolarSystem s;
     ofEasyCam cam;
+
+    //soundStream object
+    ofSoundStream soundStream;
+
+    //vectors for left and right channel waveforms
+    vector<float> left, right;
+
+    //FFT object
+    ofxFft* fft;
+
+    //soundPlayer object to play space sounds
+    //ofSoundPlayer* snd;
+
+    //Stk FileWvIn array
+    stk::FileWvIn* snd;
+
+    //keep track of which wave file is being played
+    int whichFile;
+
 
 };

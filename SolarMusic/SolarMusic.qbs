@@ -19,7 +19,8 @@ Project{
         ]
 
         of.addons: [
-
+           'ofxFft',
+           'ofxStk',
         ]
 
         // additional flags for the project. the of module sets some
