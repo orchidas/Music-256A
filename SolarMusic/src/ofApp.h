@@ -19,8 +19,10 @@ class SolarSystem{
 public:
     SolarSystem(){
         earthRad = 20.0;
+        sunRad = earthRad * 5;
         earthSemiMajor = 250;
-        earthOrbitAng = 1;
+        earthOrbitAng = 1.0;
+        sunRingRadius = 10;
         planet = new Planet[nPlanets];
     }
     ~SolarSystem(){
@@ -30,9 +32,12 @@ public:
     void setup(){
 
         //create sun
-        sun.setRadius(5*earthRad);
+        sun.setRadius(sunRad);
         sunRotationAngle = 0.0;
         sunTexture.loadImage("sunTexture.png");
+        blackHole = false;
+        superNova = false;
+
 
         //create planets
         //mercury
@@ -54,6 +59,17 @@ public:
 
     }
 
+    void setBlackHole(bool hole){
+        blackHole = hole;
+        for(int i=0;i<nPlanets;i++)
+            planet[i].isBlackHole(hole);
+    }
+
+    void setSuperNova(bool super){
+        superNova = super;
+    }
+
+
     void update(float* orbSpeed){
         sunRotationAngle += 0.1;
         for(int i = 0; i < nPlanets;i++){
@@ -61,21 +77,23 @@ public:
         }
 
         //keep speed of rotation fixed as of now
-        planet[0].update(4.14 * (earthOrbitAng + orbSpeed[0]));
-        planet[1].update(1.63 * (earthOrbitAng + orbSpeed[1]));
-        planet[2].update(1.0 * (earthOrbitAng + orbSpeed[2]));
-        planet[3].update(0.531 * (earthOrbitAng + orbSpeed[3]));
-        planet[4].update(0.084 * (earthOrbitAng + orbSpeed[4]));
-        planet[5].update(0.034 * (earthOrbitAng + orbSpeed[5]));
-        planet[6].update(0.012 * (earthOrbitAng + orbSpeed[6]));
-        planet[7].update(0.004 * (earthOrbitAng + orbSpeed[7]));
-
+        planet[0].update(4.14 * earthOrbitAng + orbSpeed[0]);
+        planet[1].update(1.63 * earthOrbitAng + orbSpeed[1]);
+        planet[2].update(1.0 * earthOrbitAng + orbSpeed[2]);
+        planet[3].update(0.531 * earthOrbitAng + orbSpeed[3]);
+        planet[4].update(0.084 * earthOrbitAng + orbSpeed[4]);
+        planet[5].update(0.034 * earthOrbitAng + orbSpeed[5]);
+        planet[6].update(0.012 * earthOrbitAng + orbSpeed[6]);
+        planet[7].update(0.004 * earthOrbitAng + orbSpeed[7]);
 
     }
 
     void draw(){
 
         ofPushMatrix();
+
+        if(!blackHole){
+            if(!superNova){
             //draw the sun
             ofPushMatrix();
                 ofRotateZ( sunRotationAngle );
@@ -86,11 +104,61 @@ public:
                     sun.draw();
                 ofPopStyle(); // Back to initial style state
             ofPopMatrix();
+            }
+            //draw supernova
+            else if(superNova){
+                //sun cannot shrink any further
+                if(sun.getRadius() < 10){
+                   sunRingRadius += 0.1;
+                   drawBlackhole(sunRingRadius);
 
-            //draw planets
-            for(int i =0; i< nPlanets;i++)
+                    if(sunRingRadius >= sunRad){
+                        setBlackHole(true);
+                        setSuperNova(false);
+                    }
+                }
+                //sun shrinks in size
+                else{
+                ofPushMatrix();
+                ofPushStyle();
+                    sun.setRadius(sun.getRadius()-0.1);
+                    sunTexture.bind();
+                    sun.draw();
+                ofPopStyle();
+                ofPopMatrix(); 
+                }
+
+            }
+        }
+
+        //draw event horizon of black hole
+        else{
+            drawBlackhole(sunRad);
+        }
+
+        //draw planets
+        for(int i =0; i< nPlanets;i++)
+        {
+            if(!blackHole || planet[i].getSemiMajorAxis() > sunRad && planet[i].getSemiMinorAxis() > sunRad){
                 planet[i].draw();
+            }
+        }
 
+        ofPopMatrix();
+    }
+
+    void drawBlackhole(float rad){
+        ofPushMatrix();
+        unsigned ringsNumber = 255;
+        for(unsigned ring = 0; ring < ringsNumber;ring++){
+            ofPushStyle();
+                ofSetCircleResolution(50);
+                ofSetColor(255,255,255,(255/ringsNumber) * (255-ring));
+                ofNoFill();
+                ofDrawCircle(0,0, rad);
+            ofPopStyle();
+            rad += 0.05;
+        }
         ofPopMatrix();
     }
 
@@ -105,10 +173,16 @@ private:
     float sunRotationAngle;
     const int nPlanets = 8;
     Planet *planet;
+    float sunRad;
     float earthRad;
     float earthSemiMajor;
     float earthOrbitAng;
     ofImage sunTexture;
+    //keep track of blackhole
+    bool blackHole;
+    //see if black hole stage is reached
+    bool superNova;
+    float sunRingRadius;
 };
 
 
@@ -153,14 +227,17 @@ private:
     //FFT object
     ofxFft* fft;
 
-    //soundPlayer object to play space sounds
-    //ofSoundPlayer* snd;
+    //8 frequency bands
+    float* fbands;
 
     //Stk FileWvIn array
     stk::FileWvIn* snd;
 
     //keep track of which wave file is being played
     int whichFile;
+
+    //background picture of universe
+    ofImage universe;
 
 
 };

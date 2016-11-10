@@ -4,4 +4,12 @@
 
 <h5>Solar Music </h5>
 
-<p> As of now, this app just displays our solar system with the planets moving around the sun in elliptical orbits. The plan is to control the speed of rotation of the planets depending on the FFT magnitude spectrum of the audio from the computer's mic. Furthermore, the rotation of planets could be used to control the frequency of some oscillators.</p>
+<p> Solar system emulator app with cool space sounds.</p>
+
+<h5>Features</h5>
+<ul>
+<li>Press any key between 1-8 to play each planet's song. Eg: 1 - mercury, 2- venus... </li>
+<li>FFT computed from real time microphone input controls the speed of revolution of planets.</li>
+<li>Press key 'b' to turn our sun into a blackhole and see earth and friends get sucked in! (morbid, I know) </li>
+<li>Press key 'r' to reset the solar system.</li>
+</ul>

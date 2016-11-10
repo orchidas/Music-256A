@@ -17,13 +17,15 @@ public:
         setRotationAngle(0.0);
         setOrbitAngle(0.0);
         setSemiMajorAxis(semiMajor);
-        setSemiMinorAxis(ecc);
+        setEccentricity(ecc);
+        setSemiMinorAxis();
         setName(n);
         setTexture(p_img);
         if(n.compare("Saturn") == 0)
             ring = true;
         else
             ring = false;
+        blackHole = false;
         xPos = 0.0;
         yPos = 0.0;
     }
@@ -38,16 +40,37 @@ public:
 
     void update(float ang){
         setOrbitAngle(ang);
+        //slowly decrease orbit
+        if(blackHole){
+            setSemiMajorAxis(a-0.1);
+            setSemiMinorAxis();
+        }
         setXpos();
         setYpos();
+    }
+
+    void isBlackHole(bool res){
+        blackHole = res;
+    }
+
+    void setEccentricity(float val){
+        ecc = val;
     }
 
     void setSemiMajorAxis(float val){
         a = val;
     }
 
-    void setSemiMinorAxis(float e){
-        b = a * sqrt(1 - pow(e,2.0));
+    void setSemiMinorAxis(){
+        b = a * sqrt(1 - pow(ecc,2.0));
+    }
+
+    float getSemiMajorAxis(){
+        return a;
+    }
+
+    float getSemiMinorAxis(){
+        return b;
     }
 
 
@@ -59,10 +82,18 @@ public:
         yPos =  b*sin(orbitAngle * PI/180);
     }
 
+    float getXPos(){
+        return xPos;
+    }
+
+    float getYPos(){
+        return yPos;
+    }
+
+
     void draw(){
 
         ofPushMatrix(); // Save center state
-        //ofRotateZ(orbitAngle);
         ofTranslate(xPos,yPos,0);
 
         ofPushMatrix();
@@ -133,6 +164,14 @@ public:
         rotAngle += ang;
     }
 
+    float wrapAngle( float angle )
+    {
+        while(angle > 2*PI){
+            angle -= 2*PI;
+        }
+        return angle;
+    }
+
     void setOrbitAngle(float orb){
         orbitAngle += orb;
     }
@@ -150,11 +189,12 @@ private:
     //orbit angle goes from 0 to 2*PI
     float orbitAngle;
     //a and b are semi major and semi-minor axes of ellipse
-    float a, b;
+    float a, b, ecc;
     float xPos, yPos;
     ofSpherePrimitive planet;
     ofImage texture;
     string name;
     bool ring;
+    bool blackHole;
 
 };

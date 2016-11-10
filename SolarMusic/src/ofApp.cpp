@@ -1,5 +1,6 @@
 #include "ofApp.h"
 #include <string>
+#include <math.h>
 //--------------------------------------------------------------
 void ofApp::setup(){
 
@@ -14,6 +15,10 @@ void ofApp::setup(){
 
     // Black background
     ofBackground(0);
+
+    //add background image
+    universe.load("universe.jpg");
+    universe.draw(0,0);
 
     //setup solar system
     s.setup();
@@ -31,6 +36,8 @@ void ofApp::setup(){
     //setup the fft
     fft = ofxFft::create(MY_BUFFERSIZE, OF_FFT_WINDOW_HAMMING);
 
+    //initialise frequency bands
+    fbands = new float[s.getNplanets()];
 
     //create snd object
     snd = new stk::FileWvIn[s.getNplanets()];
@@ -45,6 +52,7 @@ void ofApp::setup(){
                             "uranus.wav", "neptune.wav"};
 
     for(int i=0;i<s.getNplanets();i++){
+        fbands[i] = 0.0;
         snd[i].setRate((float)MY_SRATE);
         snd[i].openFile(ofToDataPath(fname[i], true));
 
@@ -55,15 +63,18 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
 
-    //normalise left channel waveform
-    float maxValue = 0;
+    //if the mean of the input is negligible, then amplitude should be 0
+    float thres = -20.0;
+    float avg = 0.0;
     for(int i=0;i<left.size();i++){
-        if(abs(left[i] > maxValue))
-            maxValue = abs(left[i]);
+        avg += abs(left[i]);
     }
 
-    for(int i = 0;i<left.size();i++)
-        left[i] /= maxValue;
+    avg /= left.size();
+    if(20*log10(avg) < thres){
+        for(int i = 0; i < left.size(); i++)
+            left[i] = 0.0;
+    }
 
     //take fft of left channel
     fft->setSignal(&left[0]);
@@ -72,19 +83,23 @@ void ofApp::update(){
     float* fftData = fft->getAmplitude();
 
     //normalise the FFT magnitude values
-    maxValue = 0;
+    float maxValue = 0;
     for(int i = 0; i< fft->getBinSize(); i++){
+        fftData[i] = abs(fftData[i]);
         if(abs(fftData[i]) > maxValue)
-            maxValue = abs(fftData[i]);
+            maxValue = fftData[i];
     }
 
-    for(int i = 0; i < fft->getBinSize();i++)
+    for(int i = 0; i < fft->getBinSize();i++){
         fftData[i] /= maxValue;
+    }
+
 
     //divide into 8 frequency bands and get average FFT value for each
-    float* fbands = new float[s.getNplanets()];
-
     int nPointsPerBin = fft->getBinSize()/s.getNplanets();
+    //remove all values from fbands
+    for(int i = 0;i < s.getNplanets(); i++)
+        fbands[i] = 0.0;
 
     for(int i=0; i < s.getNplanets(); i++){
         for (int j = 0; j< nPointsPerBin; j++){
@@ -93,10 +108,13 @@ void ofApp::update(){
         fbands[i] /= nPointsPerBin;
 
         //replace nan and negative values with 0
-        if(fbands[i] != fbands[i] || fbands[i] < 0){fbands[i] = 0.0;}
+        if(fbands[i] != fbands[i] || fbands[i] < 0){fbands[i] = 1.0;}
+
+        //take log just for fun
+        fbands[i] = abs(log10(fbands[i]));
 
         //print values for debugging
-        std :: cout << "Orbit Speed for planet " << i << " is: " << fbands[i] << endl;
+        //std :: cout << "Orbit Speed for planet " << i << " is: " << fbands[i] << endl;
     }
 
     //speed of rotation of each planet depends on value of average intensity
@@ -107,6 +125,8 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+
+
     ofPushMatrix();
     ofTranslate(ofGetWindowWidth()*0.5, ofGetWindowHeight()*0.5);
     cam.begin();
@@ -140,6 +160,16 @@ void ofApp::keyPressed(int key){
         whichFile = key - 49;
     else
         whichFile = -1;
+
+    //create black hole
+    if(key == 'b' || key == 'B'){
+        //s.setBlackHole(true);
+        s.setSuperNova(true);
+    }
+    //reset solar system
+    else if(key == 'r' || key == 'R'){
+        s.setup();
+    }
 }
 
 //---------------------------------------------------------------
@@ -218,5 +248,7 @@ void ofApp::exit(){
     delete [] fft;
     //delete sound buffer
     delete [] snd;
+    //delete frequency bands
+    delete [] fbands;
 
 }
