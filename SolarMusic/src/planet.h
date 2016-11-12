@@ -26,8 +26,10 @@ public:
         else
             ring = false;
         blackHole = false;
+        isInside = false;
         xPos = 0.0;
         yPos = 0.0;
+
     }
 
     void setName(const string &n){
@@ -38,19 +40,17 @@ public:
         return name;
     }
 
-    void update(float ang){
-        setOrbitAngle(ang);
-        //slowly decrease orbit
-        if(blackHole){
-            setSemiMajorAxis(a-0.1);
-            setSemiMinorAxis();
-        }
-        setXpos();
-        setYpos();
-    }
 
     void isBlackHole(bool res){
         blackHole = res;
+    }
+
+    void setIsInside(bool in){
+        isInside = in;
+    }
+
+    bool getIsInside(){
+        return isInside;
     }
 
     void setEccentricity(float val){
@@ -90,6 +90,58 @@ public:
         return yPos;
     }
 
+    void setSize(float rad){
+        planet.setRadius(rad);
+    }
+
+    float getSize(){
+        //if planet is saturn, ring radius must be taken into account
+        if (name.compare("Saturn") == 0)
+            return planet.getRadius() + 10.0;
+
+        else
+            return planet.getRadius();
+    }
+
+    void setRotationAngle(float ang){
+        rotAngle += ang;
+    }
+
+    float wrapAngle( float angle )
+    {
+        while(angle > 2*PI){
+            angle -= 2*PI;
+        }
+        return angle;
+    }
+
+    void setOrbitAngle(float orb){
+        orbitAngle += orb;
+    }
+
+    void setTexture(const string & p_imgPath)
+    {
+        texture.loadImage(p_imgPath);
+    }
+
+    float distanceFromCenter(float xc, float yc){
+        return sqrt(pow((xc-xPos),2) + pow((yc-yPos),2));
+
+    }
+
+    float getRotationAngle(){return rotAngle;}
+    float getOrbitAngle(){return orbitAngle;}
+
+    void update(float ang){
+        setOrbitAngle(ang);
+        //slowly decrease orbit
+        if(blackHole){
+            setSemiMajorAxis(a-0.1);
+            setSemiMinorAxis();
+        }
+        setXpos();
+        setYpos();
+    }
 
     void draw(){
 
@@ -120,8 +172,8 @@ public:
 
         if (ring == true)
             drawRing();
-
     }
+
 
     void drawRing(){
 
@@ -156,33 +208,6 @@ public:
         }
     }
 
-    void setSize(float rad){
-        planet.setRadius(rad);
-    }
-
-    void setRotationAngle(float ang){
-        rotAngle += ang;
-    }
-
-    float wrapAngle( float angle )
-    {
-        while(angle > 2*PI){
-            angle -= 2*PI;
-        }
-        return angle;
-    }
-
-    void setOrbitAngle(float orb){
-        orbitAngle += orb;
-    }
-
-    void setTexture(const string & p_imgPath)
-    {
-        texture.loadImage(p_imgPath);
-    }
-
-    float getRotationAngle(){return rotAngle;}
-    float getOrbitAngle(){return orbitAngle;}
 
 private:
     float rotAngle;
@@ -196,5 +221,7 @@ private:
     string name;
     bool ring;
     bool blackHole;
+    bool isInside;
+
 
 };

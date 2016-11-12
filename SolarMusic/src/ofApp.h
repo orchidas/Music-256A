@@ -21,8 +21,7 @@ public:
         earthRad = 20.0;
         sunRad = earthRad * 5;
         earthSemiMajor = 250;
-        earthOrbitAng = 1.0;
-        sunRingRadius = 10;
+        earthOrbitAng = 1.0;  
         planet = new Planet[nPlanets];
     }
     ~SolarSystem(){
@@ -37,6 +36,7 @@ public:
         sunTexture.loadImage("sunTexture.png");
         blackHole = false;
         superNova = false;
+        sunRingRadius = 10;
 
 
         //create planets
@@ -49,9 +49,9 @@ public:
         //mars radius
         planet[3].setup("Mars", "MarsTexture.jpg", 0.5 * earthRad, 1.223 * earthSemiMajor, 0.093);
         //jupiter radius
-        planet[4].setup("Jupiter", "JupiterTexture.jpg", 2.5 * earthRad, 1.6028 * earthSemiMajor, 0.048);
+        planet[4].setup("Jupiter", "JupiterTexture.jpg", 2 * earthRad, 1.6028 * earthSemiMajor, 0.048);
         //saturn radius
-        planet[5].setup("Saturn", "SaturnTexture.jpg", 2 * earthRad, 2.0388 * earthSemiMajor, 0.56);
+        planet[5].setup("Saturn", "SaturnTexture.jpg", 1.8 * earthRad, 2.0388 * earthSemiMajor, 0.56);
         //uranus radius
         planet[6].setup("Uranus", "UranusTexture.jpg", 1.5 * earthRad, 2.3914 * earthSemiMajor, 0.76);
         //nepture radius
@@ -93,7 +93,9 @@ public:
         ofPushMatrix();
 
         if(!blackHole){
+
             if(!superNova){
+
             //draw the sun
             ofPushMatrix();
                 ofRotateZ( sunRotationAngle );
@@ -105,8 +107,10 @@ public:
                 ofPopStyle(); // Back to initial style state
             ofPopMatrix();
             }
+
             //draw supernova
             else if(superNova){
+
                 //sun cannot shrink any further
                 if(sun.getRadius() < 10){
                    sunRingRadius += 0.1;
@@ -117,8 +121,10 @@ public:
                         setSuperNova(false);
                     }
                 }
+
                 //sun shrinks in size
                 else{
+
                 ofPushMatrix();
                 ofPushStyle();
                     sun.setRadius(sun.getRadius()-0.1);
@@ -139,9 +145,14 @@ public:
         //draw planets
         for(int i =0; i< nPlanets;i++)
         {
-            if(!blackHole || planet[i].getSemiMajorAxis() > sunRad && planet[i].getSemiMinorAxis() > sunRad){
+            //check if planet is inside event horizon
+            if(!blackHole || planet[i].distanceFromCenter(0,0) - planet[i].getSize() > sunRad
+                    && !planet[i].getIsInside()){
                 planet[i].draw();
             }
+            else
+                planet[i].setIsInside(true);
+
         }
 
         ofPopMatrix();

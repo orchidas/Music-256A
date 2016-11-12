@@ -163,7 +163,6 @@ void ofApp::keyPressed(int key){
 
     //create black hole
     if(key == 'b' || key == 'B'){
-        //s.setBlackHole(true);
         s.setSuperNova(true);
     }
     //reset solar system

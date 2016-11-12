@@ -2,9 +2,9 @@
 
 <h3>Interactive Graphics in OpenFrameworks - Week 4 homework</h3>
 
-<h5>Solar Music </h5>
+<h4>Solar Music </h4>
 
-<p> Solar system emulator app with cool space sounds.</p>
+<p> Solar system emulator app with cool space sounds. The video can be viewed <a href = "https://youtu.be/l_9eoexVUCg">here</a>.</p>
 
 <h5>Features</h5>
 <ul>
