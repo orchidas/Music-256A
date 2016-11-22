@@ -31,8 +31,9 @@ public:
         drawMeshPoints();
         //need this to keep tex coords between 0-1
         ofEnableNormalizedTexCoords();
+        //enable depth test
+        ofDisableDepthTest();
         this->color = color;
-
     }
 
     void setRadius(float r){
@@ -56,6 +57,10 @@ public:
         bindImg.load(path);
     }
 
+    void setImageSize(){
+        bindImg.resize(1.414*radius, 1.414*radius);
+    }
+
     void drawMeshPoints(){
         int nPts  = 60;
 
@@ -73,18 +78,24 @@ public:
            }
     }
 
+
     void update(){}
 
     void draw(){
         ofPushMatrix();
         ofTranslate(centerX, centerY);
 
-
+        ofPushMatrix();
         bindImg.bind();
+        ofPushStyle();
         ofSetColor(color);
         mesh.draw();
+        ofPopStyle();
+        ofPushStyle();
         ofSetColor(0,0,0);
         border.draw();
+        ofPopStyle();
+        ofPopMatrix();
         bindImg.unbind();
 
         ofPopMatrix();

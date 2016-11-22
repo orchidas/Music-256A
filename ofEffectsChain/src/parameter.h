@@ -37,7 +37,7 @@ private:
 class Parameter{
 public:
     Parameter(){
-        paramMap = map<const string, float>();
+        //paramMap = map<const string, float>();
     }
     ~Parameter(){
         paramMap.clear();
@@ -60,9 +60,20 @@ public:
             return paramMap[name];
     }
 
+    /*void setParamMaxMin(tuple<float,float> maxMin){
+        valMax = get<0>(maxMin);
+        valMin = get<1>(maxMin);
+    }
+
+    tuple<float,float> getParamMaxMin(){
+        return make_tuple(valMax, valMin);
+    }*/
+
 private:
     //using a hash map with a key-value pair here seems to make a lot of sense
     map<const string, float> paramMap;
+    //float valMax;
+    //float valMin;
 };
 
 #endif // PARAMETER_H

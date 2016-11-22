@@ -3,6 +3,8 @@
 #include "ofMain.h"
 #include "effect.h"
 #include "circle.h"
+#include "gun.h"
+#include "laser.h"
 #include<string>
 #include<vector>
 #include<map>
@@ -16,9 +18,9 @@ public:
     EffectsChain(){
         effects = new Effect[maxEffects];
         effectsName = new string[maxEffects];
-        effectsName[0] = "distortion";
-        effectsName[1] = "tremolo";
-        effectsName[2] = "delay";
+        effectsName[0] = "Distortion";
+        effectsName[1] = "Tremolo";
+        effectsName[2] = "Delay";
 
     }
     ~EffectsChain(){
@@ -28,29 +30,32 @@ public:
 
     void setup(){
 
+        effcRad = 30.0;
+
         map<const string, float> distParam;
-        distParam["gain"] = 0.3;
-        distParam["drive"] = 0.5;
+        distParam["0-gain"] = 0.3;
+        distParam["1-drive"] = 0.5;
         vecOfParamMaps.push_back(distParam);
 
         map<const string, float> tremParam;
-        tremParam["gain"] = 0.3;
-        tremParam["modFreq"] = 5;
+        tremParam["0-gain"] = 0.3;
+        tremParam["1-modFreq"] = 5;
         vecOfParamMaps.push_back(tremParam);
 
         map<const string, float> delayParam;
-        delayParam["gain"] = 0.3;
-        delayParam["feedback"] = 0.2;
-        delayParam["delayMs"] = 10.0;
+        delayParam["0-gain"] = 0.3;
+        delayParam["1-feedback"] = 0.2;
+        delayParam["2-delayMs"] = 10.0;
         vecOfParamMaps.push_back(delayParam);
 
-        effects[0].setup(effectsName[0], "distortion.jpeg", false, 50.0,
-                make_tuple(100.0, 500.0), distParam);
-        effects[1].setup(effectsName[1], "tremolo.jpg", false, 50.0,
-                         make_tuple(200.0, 500.0), tremParam);
-        effects[2].setup(effectsName[2], "delay.jpg", false, 50.0,
-                         make_tuple(300.0, 500.0), delayParam);
-
+        effects[0].setup(effectsName[0], "distortion.jpeg", false, effcRad,
+                make_tuple(100.0, 500.0), distParam, ofColor(220,220,220));
+        effects[1].setup(effectsName[1], "tremolo.jpg", false, effcRad,
+                         make_tuple(200.0, 500.0), tremParam, ofColor(220,220,220));
+        effects[2].setup(effectsName[2], "delay.jpg", false, effcRad,
+                         make_tuple(300.0, 500.0), delayParam, ofColor(220,220,220));
+        //load text font here
+        myEffectLabel.load("pacifico/Pacifico.ttf", 12);
 
 
     }
@@ -69,11 +74,22 @@ public:
         for(int i=0;i< maxEffects;i++){
             if(!effects[i].getIsPressed() && !effects[i].getOnOff()){
                 //effect stays in menu-bar
-                effects[i].setCenter(make_tuple((ofGetWindowWidth()+200)/maxEffects * i + 100.0, ofGetWindowHeight() * 0.85 + 50.0));
+                effects[i].setCenter(make_tuple((ofGetWindowWidth()+200)/maxEffects * i + 100.0, ofGetWindowHeight() * 0.84 + 50.0));
+                //add labels to effects in menu bar
+                ofPushStyle();
+                    ofSetColor(200,200,200);
+                    myEffectLabel.drawString(effectsName[i], (ofGetWindowWidth()+200)/maxEffects * i + 100.0 - effcRad + 5, ofGetWindowHeight() * 0.84 + 50.0 + effcRad + 25);
+                ofPopStyle();
+            }     
+            else if(!effects[i].getIsPressed() && effects[i].getOnOff()){
+                //make effects move in a circle
+                effects[i].moveCenterInCircle();
+
             }
             effects[i].draw();
         }
     }
+
 
     void checkIfEffectSelected(int x, int y){
         float limitx, limity, r;
@@ -96,7 +112,9 @@ public:
             if(effects[i].getIsPressed()){
                 cout << effects[i].getName() << " is pressed:" << effects[i].getIsPressed() << endl;
                 effects[i].setCenter(make_tuple((float)x,(float)y));
-                cout << "New coordintates:" << x << "," << y << endl;
+                effects[i].setPathRadius();
+                effects[i].changeParameter();
+                cout << "New coordinates:" << x << "," << y << endl;
                 cout << get<0>(effects[i].getCenter()) << "," << get<1>(effects[i].getCenter()) << endl;
             }
         }
@@ -122,15 +140,29 @@ public:
         }
     }
 
+    bool isHitByLaser(tuple <float, float> laserPos){
+        for(int i=0;i< maxEffects;i++){
+            if(effects[i].checkIfHit(laserPos)){
+                cout << effectsName[i] << " was hit by laser." << endl;
+                effects[i].randomiseCirclePath();
+                //if this function is not called,
+                //then change in orbital radius won't take place
+                effects[i].setPathRadius();
+                effects[i].changeParameter();
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 private:
     Effect *effects;
     const int maxEffects = 3;
     string *effectsName;
+    float effcRad;
     vector<map<const string, float>> vecOfParamMaps;
-
-
+    ofTrueTypeFont myEffectLabel;
 
 };
 
@@ -152,9 +184,13 @@ public:
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
+    void exit();
 
 private:
     EffectsChain effc;
     ofImage sqImg;
     Circle input;
+    Gun g;
+    //laser beams need to be in a dynamic list
+    vector<Laser> l;
 };

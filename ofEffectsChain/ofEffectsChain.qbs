@@ -14,6 +14,8 @@ Project{
         files: [
             "src/circle.h",
             "src/effect.h",
+            "src/gun.h",
+            "src/laser.h",
             "src/parameter.h",
             'src/main.cpp',
             'src/ofApp.cpp',
