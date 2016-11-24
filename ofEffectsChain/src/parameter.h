@@ -2,6 +2,7 @@
 #define PARAMETER_H
 #include<string>
 #include<map>
+#include<tuple>
 #include<iterator>
 using namespace std;
 
@@ -60,20 +61,23 @@ public:
             return paramMap[name];
     }
 
-    /*void setParamMaxMin(tuple<float,float> maxMin){
-        valMax = get<0>(maxMin);
-        valMin = get<1>(maxMin);
+    void setMaxMinValues(tuple<float, float> mm){
+        min = get<0>(mm);
+        max = get<1>(mm);
     }
 
-    tuple<float,float> getParamMaxMin(){
-        return make_tuple(valMax, valMin);
-    }*/
+    tuple<float, float> getMinMaxValues(){
+        return make_tuple(min,max);
+    }
+
+
 
 private:
     //using a hash map with a key-value pair here seems to make a lot of sense
     map<const string, float> paramMap;
-    //float valMax;
-    //float valMin;
+    float min;
+    float max;
+
 };
 
 #endif // PARAMETER_H

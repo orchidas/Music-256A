@@ -692,6 +692,7 @@ class Tremolo : public dsp {
 	float fRec1[2];
 	float fRec2[2];
 	float fRec4[2];
+	FAUSTFLOAT fButton0;
 	FAUSTFLOAT fHslider0;
 	float fConst0;
 	FAUSTFLOAT fHslider1;
@@ -765,6 +766,7 @@ class Tremolo : public dsp {
 	}
 	
 	virtual void instanceResetUserInterface() {
+		fButton0 = FAUSTFLOAT(0.0f);
 		fHslider0 = FAUSTFLOAT(0.0f);
 		fHslider1 = FAUSTFLOAT(5.0f);
 		fHslider2 = FAUSTFLOAT(1.0f);
@@ -822,6 +824,7 @@ class Tremolo : public dsp {
 		ui_interface->addHorizontalSlider("depth", &fHslider0, 0.0f, 0.0f, 1.0f, 0.00999999978f);
 		ui_interface->addHorizontalSlider("frequency", &fHslider1, 5.0f, 0.100000001f, 15.0f, 0.00999999978f);
 		ui_interface->addHorizontalSlider("gain", &fHslider2, 1.0f, 0.0f, 1.0f, 0.00999999978f);
+		ui_interface->addButton("gate",&fButton0);
 		ui_interface->closeBox();
 		
 	}
@@ -829,20 +832,21 @@ class Tremolo : public dsp {
 	virtual void compute(int count, FAUSTFLOAT** inputs, FAUSTFLOAT** outputs) {
 		FAUSTFLOAT* input0 = inputs[0];
 		FAUSTFLOAT* output0 = outputs[0];
-		float fSlow0 = (0.00100000005f * float(fHslider0));
-		float fSlow1 = (0.00100000005f * float(fHslider1));
-		float fSlow2 = (0.00100000005f * float(fHslider2));
+		float fSlow0 = float(fButton0);
+		float fSlow1 = (0.00100000005f * float(fHslider0));
+		float fSlow2 = (0.00100000005f * float(fHslider1));
+		float fSlow3 = (0.00100000005f * float(fHslider2));
 		for (int i = 0; (i < count); i = (i + 1)) {
 			iVec0[0] = 1;
-			fRec0[0] = (fSlow0 + (0.999000013f * fRec0[1]));
-			fRec3[0] = (fSlow1 + (0.999000013f * fRec3[1]));
+			fRec0[0] = (fSlow1 + (0.999000013f * fRec0[1]));
+			fRec3[0] = (fSlow2 + (0.999000013f * fRec3[1]));
 			float fTemp0 = (fConst0 * fRec3[0]);
 			float fTemp1 = sinf(fTemp0);
 			float fTemp2 = cosf(fTemp0);
 			fRec1[0] = ((fRec2[1] * fTemp1) + (fRec1[1] * fTemp2));
 			fRec2[0] = (((fRec2[1] * fTemp2) + (fRec1[1] * (0.0f - fTemp1))) + float((1 - iVec0[1])));
-			fRec4[0] = (fSlow2 + (0.999000013f * fRec4[1]));
-			output0[i] = FAUSTFLOAT((((1.0f - (0.5f * (fRec0[0] * (fRec1[0] + 1.0f)))) * fRec4[0]) * float(input0[i])));
+			fRec4[0] = (fSlow3 + (0.999000013f * fRec4[1]));
+			output0[i] = FAUSTFLOAT((fSlow0 * (((1.0f - (0.5f * (fRec0[0] * (fRec1[0] + 1.0f)))) * fRec4[0]) * float(input0[i]))));
 			iVec0[1] = iVec0[0];
 			fRec0[1] = fRec0[0];
 			fRec3[1] = fRec3[0];

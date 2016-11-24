@@ -19,6 +19,34 @@ void ofApp::setup(){
     input.setup(30,make_tuple(0.0,0.0),"input.bmp", ofColor(255,255,255));
     g.setup("gun_texture.png",(0.85*ofGetWindowWidth())/2 + 0.15*ofGetWindowWidth(),0);
 
+    effects = effc.getEffects();
+    maxEffects = effc.getNumEffects();
+
+
+
+    //audio initialisation
+
+    lAudio.assign(MY_BUFFERSIZE, 0.0);
+    rAudio.assign(MY_BUFFERSIZE, 0.0);
+    audioBuffer = new float*[2];
+    audioBuffer[0] = &lAudio[0];
+    audioBuffer[1] = &rAudio[0];
+
+    //setup sound stream
+    soundStream.setup(this, MY_CHANNELS, MY_CHANNELS, MY_SRATE, MY_BUFFERSIZE, MY_NBUFFERS);
+    //myMutex = new ofMutex[maxEffects];
+
+    dist.init(MY_SRATE);
+    dist.buildUserInterface(&distControl);
+    distControl.setParamValue("/distortion/gain", effects[0].getParamValue("1-gain"));
+    distControl.setParamValue("/distotion/gate", 0);
+
+    trem.init(MY_SRATE);
+    trem.buildUserInterface(&tremControl);
+    tremControl.setParamValue("/tremolo/gain", effects[1].getParamValue("1-gain"));
+    tremControl.setParamValue("/tremolo/gate", 0);
+    tremControl.setParamValue("/tremolo/depth", effects[1].getParamValue("2-depth"));
+
 
 }
 
@@ -31,6 +59,12 @@ void ofApp::update(){
             l[i].setShoot(false);
         }
     }
+
+    distControl.setParamValue("/distortion/gate", effects[0].getOnOff());
+    distControl.setParamValue("/distortion/drive", effects[0].getParamValue("0-drive"));
+
+    tremControl.setParamValue("/tremolo/gate", effects[1].getOnOff());
+    tremControl.setParamValue("/tremolo/frequency", effects[1].getParamValue("0-frequency"));
 
 }
 
@@ -163,4 +197,34 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 }
 
-void ofApp::exit(){}
+void ofApp::audioIn(float * input, int bufferSize, int nChannels){
+    for (int j = 0; j < bufferSize; j++){
+            lAudio[j]         = input[j*2];
+            rAudio[j]        =  input[j*2+1];
+    }
+}
+
+void ofApp::audioOut(float * output, int bufferSize, int nChannels){
+
+    //keep audio thread seperate from graphics thread
+    myMutex.lock();
+    dist.compute(bufferSize, audioBuffer, audioBuffer);
+    //myMutex.unlock();
+
+    //myMutex.lock();
+    trem.compute(bufferSize, audioBuffer, audioBuffer);
+    myMutex.unlock();
+
+    // Interleave the output buffer
+        for (int i = 0; i < bufferSize; i++)
+        {
+            output[2*i] = lAudio[i]; //audioBuffer[0][i];
+            output[2*i+1] = rAudio[i]; //audioBuffer[1][i];
+        }
+}
+
+void ofApp::exit(){
+    delete []audioBuffer;
+    delete []effects;
+    //delete []myMutex;
+}

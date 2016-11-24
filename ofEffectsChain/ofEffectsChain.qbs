@@ -17,9 +17,8 @@ Project{
             "src/gun.h",
             "src/laser.h",
             "src/parameter.h",
-            'src/main.cpp',
-            'src/ofApp.cpp',
-            'src/ofApp.h',
+            "src/ofApp.cpp",
+            "src/ofApp.h",
         ]
 
         of.addons: [

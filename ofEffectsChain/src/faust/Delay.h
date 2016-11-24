@@ -690,9 +690,12 @@ class Delay : public dsp {
 	float fRec0[131072];
 	float fRec1[2];
 	float fRec2[2];
+	float fRec3[2];
+	FAUSTFLOAT fButton0;
 	float fConst0;
 	FAUSTFLOAT fHslider0;
 	FAUSTFLOAT fHslider1;
+	FAUSTFLOAT fHslider2;
 	
   public:
 	
@@ -760,8 +763,10 @@ class Delay : public dsp {
 	}
 	
 	virtual void instanceResetUserInterface() {
+		fButton0 = FAUSTFLOAT(0.0f);
 		fHslider0 = FAUSTFLOAT(0.5f);
 		fHslider1 = FAUSTFLOAT(0.0f);
+		fHslider2 = FAUSTFLOAT(1.0f);
 		
 	}
 	
@@ -777,6 +782,10 @@ class Delay : public dsp {
 		IOTA = 0;
 		for (int i2 = 0; (i2 < 131072); i2 = (i2 + 1)) {
 			fRec0[i2] = 0.0f;
+			
+		}
+		for (int i3 = 0; (i3 < 2); i3 = (i3 + 1)) {
+			fRec3[i3] = 0.0f;
 			
 		}
 		
@@ -804,6 +813,8 @@ class Delay : public dsp {
 		ui_interface->openVerticalBox("delay");
 		ui_interface->addHorizontalSlider("Duration", &fHslider0, 0.5f, 0.0f, 1.0f, 0.00999999978f);
 		ui_interface->addHorizontalSlider("Feedback", &fHslider1, 0.0f, 0.0f, 1.0f, 0.00999999978f);
+		ui_interface->addHorizontalSlider("gain", &fHslider2, 1.0f, 0.0f, 1.0f, 0.00999999978f);
+		ui_interface->addButton("gate",&fButton0);
 		ui_interface->closeBox();
 		
 	}
@@ -811,16 +822,20 @@ class Delay : public dsp {
 	virtual void compute(int count, FAUSTFLOAT** inputs, FAUSTFLOAT** outputs) {
 		FAUSTFLOAT* input0 = inputs[0];
 		FAUSTFLOAT* output0 = outputs[0];
-		float fSlow0 = (0.00100000005f * float(fHslider0));
-		float fSlow1 = (0.00100000005f * float(fHslider1));
+		float fSlow0 = float(fButton0);
+		float fSlow1 = (0.00100000005f * float(fHslider0));
+		float fSlow2 = (0.00100000005f * float(fHslider1));
+		float fSlow3 = (0.00100000005f * float(fHslider2));
 		for (int i = 0; (i < count); i = (i + 1)) {
-			fRec1[0] = (fSlow0 + (0.999000013f * fRec1[1]));
-			fRec2[0] = (fSlow1 + (0.999000013f * fRec2[1]));
+			fRec1[0] = (fSlow1 + (0.999000013f * fRec1[1]));
+			fRec2[0] = (fSlow2 + (0.999000013f * fRec2[1]));
 			fRec0[(IOTA & 131071)] = ((fRec0[((IOTA - ((int(((fConst0 * fRec1[0]) + -1.0f)) & 65535) + 1)) & 131071)] * fRec2[0]) + float(input0[i]));
-			output0[i] = FAUSTFLOAT(fRec0[((IOTA - 0) & 131071)]);
+			fRec3[0] = (fSlow3 + (0.999000013f * fRec3[1]));
+			output0[i] = FAUSTFLOAT((fSlow0 * (fRec0[((IOTA - 0) & 131071)] * fRec3[0])));
 			fRec1[1] = fRec1[0];
 			fRec2[1] = fRec2[0];
 			IOTA = (IOTA + 1);
+			fRec3[1] = fRec3[0];
 			
 		}
 		

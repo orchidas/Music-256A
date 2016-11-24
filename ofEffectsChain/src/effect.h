@@ -28,12 +28,13 @@ public:
     ~Effect(){}
 
     void setup(string &n,const string &p_img, bool on, float r, tuple<float,float> centerCoordinates,
-              map<const string, float> parameters, ofColor color){
+              map<const string, float> parameters, tuple<float,float> minMaxofParam, ofColor color){
         setName(n);
         setOnOff(on);
         setIsPressed(false);
         createParameterList(parameters);
         circle.setup(r, centerCoordinates, p_img, color);
+        param.setMaxMinValues(minMaxofParam);
 
     }
 
@@ -102,13 +103,15 @@ public:
     }
 
     void changeParameter(){
-        vector<string> keyList;
+        string keyList;
         map<const string, float> paramList = getParamList();
-        for(map<const string, float> :: iterator it = paramList.begin(); it != paramList.end();it++){
+        map<const string, float> :: iterator it = paramList.begin();
+        keyList = it->first;
+        /*for(map<const string, float> :: iterator it = paramList.begin(); it != paramList.end();it++){
             keyList.push_back(it->first);
-        }
-        setParam(keyList[1], ofMap(pathRad, 30, 500, 0 ,1));
-        cout << keyList[1] << " new value:" << getParamValue(keyList[1]) << endl;
+        }*/
+        setParam(keyList, ofMap(pathRad, 30, 500, get<0>(param.getMinMaxValues()) ,get<1>(param.getMinMaxValues())));
+        cout << keyList << " new value:" << getParamValue(keyList) << endl;
     }
 
 
