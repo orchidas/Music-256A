@@ -4,16 +4,20 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
+    ofSetFullscreen(true);
+
     std::cout << "Testing:" << endl;
     effc.setup();
     effc.test();
+    label.load("pacifico/Pacifico.ttf", 18);
+
 
     ofEnableDepthTest();
     //need this to bind textures
     ofDisableArbTex();
 
     input.setup(30,make_tuple(0.0,0.0),"input.bmp", ofColor(255,255,255));
-    g.setup("gun_texture.png",ofGetWindowWidth()/2,0);
+    g.setup("gun_texture.png",(0.85*ofGetWindowWidth())/2 + 0.15*ofGetWindowWidth(),0);
 
 
 }
@@ -36,20 +40,24 @@ void ofApp::draw(){
     ofPushMatrix();
 
     ofBackgroundGradient(ofColor(218,28,148), ofColor(0,0,0), OF_GRADIENT_CIRCULAR);
+    ofPushStyle();
+        ofSetColor(220,220,220);
+        label.drawString("Effects", 0.08*ofGetWindowWidth() - 35, 50.0);
+    ofPopStyle();
 
     //draw line that separates effects circle from menu
     ofPushMatrix(); 
         ofSetColor(255,255,255);
-        ofDrawLine(0,  ofGetWindowHeight() * 0.85, ofGetWindowWidth(), ofGetWindowHeight() * 0.85);
+        ofDrawLine(ofGetWindowWidth() * 0.15, 0, ofGetWindowWidth() * 0.15, ofGetWindowHeight());
         ofPushStyle();
         ofSetColor(0,0,0, 127);
-        ofDrawRectangle(0,ofGetWindowHeight() * 0.85, 0, ofGetWindowWidth(), ofGetWindowHeight() * 0.2);
+        ofDrawRectangle(0, 0, ofGetWindowWidth() * 0.15, ofGetWindowHeight());
         ofPopStyle();
     ofPopMatrix();
 
     //draw audio input at center
     ofPushMatrix();
-        ofTranslate(ofGetWindowWidth()*0.5, ofGetWindowHeight()*0.5);
+        ofTranslate((0.85*ofGetWindowWidth())/2 + 0.15*ofGetWindowWidth(), ofGetWindowHeight()*0.5);
         input.draw();
     ofPopMatrix();
 
@@ -142,7 +150,7 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-    g.setPosition(w/2,0);
+    g.setPosition((0.85*w/2) + 0.15*w,0);
 }
 
 //--------------------------------------------------------------

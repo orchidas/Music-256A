@@ -74,11 +74,11 @@ public:
         for(int i=0;i< maxEffects;i++){
             if(!effects[i].getIsPressed() && !effects[i].getOnOff()){
                 //effect stays in menu-bar
-                effects[i].setCenter(make_tuple((ofGetWindowWidth()+200)/maxEffects * i + 100.0, ofGetWindowHeight() * 0.84 + 50.0));
+                effects[i].setCenter(make_tuple(0.08*ofGetWindowWidth(), ofGetWindowHeight()/maxEffects * i + 150));
                 //add labels to effects in menu bar
                 ofPushStyle();
                     ofSetColor(200,200,200);
-                    myEffectLabel.drawString(effectsName[i], (ofGetWindowWidth()+200)/maxEffects * i + 100.0 - effcRad + 5, ofGetWindowHeight() * 0.84 + 50.0 + effcRad + 25);
+                    myEffectLabel.drawString(effectsName[i], 0.08*ofGetWindowWidth()- effcRad + 5, ofGetWindowHeight()/maxEffects * i + 150.0 + effcRad + 25);
                 ofPopStyle();
             }     
             else if(!effects[i].getIsPressed() && effects[i].getOnOff()){
@@ -123,14 +123,14 @@ public:
     void finalizePosition(int x, int y){
         for(int i=0;i< maxEffects;i++){
             if(effects[i].getIsPressed()){
-                effects[i].setOnOff(checkIfInsideMenu(i, y));
+                effects[i].setOnOff(checkIfInsideMenu(i, x));
                 effects[i].setIsPressed(false);
             }
         }
     }
 
-    bool checkIfInsideMenu(int i,int mouseY){
-        if(mouseY > 0.8*ofGetWindowHeight()){
+    bool checkIfInsideMenu(int i,int mouseX){
+        if(mouseX < 0.2*ofGetWindowWidth()){
            cout << effects[i].getName() << " should be turned off" << endl;
            return false;
         }
@@ -193,4 +193,6 @@ private:
     Gun g;
     //laser beams need to be in a dynamic list
     vector<Laser> l;
+    ofTrueTypeFont label;
+    float width, height;
 };

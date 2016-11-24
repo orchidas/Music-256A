@@ -70,7 +70,7 @@ public:
     }
 
     void setPathRadius(){
-        float x = (0.5*ofGetWindowWidth()) - get<0>(circle.getCenter());
+        float x = (0.85*ofGetWindowWidth()/2 + 0.15*ofGetWindowWidth()) - get<0>(circle.getCenter());
         float y = (0.5*ofGetWindowHeight()) - get<1>(circle.getCenter());
         pathRad = sqrt(pow(x,2) + pow(y, 2));
         //dunno why but only negating both x and y gives right angle
@@ -82,7 +82,7 @@ public:
     }
 
     void moveCenterInCircle(){
-        float centerX = (0.5*ofGetWindowWidth()) + pathRad * cos(pathAng);
+        float centerX = (0.85*ofGetWindowWidth()/2 + 0.15*ofGetWindowWidth()) + pathRad * cos(pathAng);
         float centerY = (0.5*ofGetWindowHeight()) + pathRad * sin(pathAng);
         pathAng +=  0.01;
         circle.setCenter(make_tuple(centerX, centerY));
@@ -91,11 +91,13 @@ public:
     void randomiseCirclePath(){
         float centerX = get<0>(circle.getCenter());
         float centerY = get<1>(circle.getCenter());
-        //seed
+        //initialise seed
         srand (time(NULL));
-        float newX = rand() % 150 + 70;
-        float newY = rand() % 150 + 70;
+        //make sure the new radius stays withing screen limits
+        float newX = rand() % 90 + 80;
+        float newY = rand() % 90 + 80;
         circle.setCenter(make_tuple(centerX + newX, centerY+newY));
+        setPathRadius();
         cout << "New path radius : " << pathRad << endl;
     }
 
@@ -163,7 +165,7 @@ public:
         //draw orbit path
         if(on){
         ofPushMatrix();
-        ofTranslate(ofGetWindowWidth()*0.5, ofGetWindowHeight()*0.5);
+        ofTranslate(0.85*ofGetWindowWidth()/2 + (0.15*ofGetWindowWidth()), ofGetWindowHeight()*0.5);
         ofPushStyle();
             ofNoFill();
             ofSetLineWidth(2);

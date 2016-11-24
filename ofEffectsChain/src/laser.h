@@ -48,9 +48,6 @@ public:
 
     void update(){
         posY += 10;
-        if(posY >= ofGetWindowHeight() * 0.8){
-            setShoot(false);
-        }
     }
 
     void draw(){

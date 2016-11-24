@@ -17,7 +17,7 @@ public:
     Gun(){
         offset = 0.0;
         rad = 10;
-        height = 150;
+        height = 100;
     }
 
     ~Gun(){}
@@ -29,7 +29,7 @@ public:
     }
 
     tuple<float, float> getPosition(){
-        return make_tuple(posX+offset,posY + 100);
+        return make_tuple(posX+offset,posY + height);
     }
 
     void setPosition(float x, float y){
@@ -37,8 +37,14 @@ public:
         posY = y;
     }
 
-    void setOffset(float ang){
-        offset = ang;
+    void setOffset(float off){
+        //make sure gun doesn't touch menu screen
+        if(posX + off <= 0.2*ofGetWindowWidth()){
+            offset = 0.2*ofGetWindowWidth() - posX;
+        }
+        else{
+            offset = off;
+        }
     }
 
     float getOffset(){
