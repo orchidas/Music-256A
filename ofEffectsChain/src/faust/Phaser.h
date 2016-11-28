@@ -2,8 +2,8 @@
 Code generated with Faust 2.0.a51 (http://faust.grame.fr)
 ------------------------------------------------------------ */
 
-#ifndef  __Tremolo_H__
-#define  __Tremolo_H__
+#ifndef  __Phaser_H__
+#define  __Phaser_H__
 
 #ifndef FAUSTFLOAT
 #define FAUSTFLOAT float
@@ -676,27 +676,45 @@ class dsp_factory {
 // tags used by the Faust compiler to paste the generated c++ code
 #include <math.h>
 
+/*float faustpower2_f(float value) {
+	return (value * value);
+	
+}*/
 
 #ifndef FAUSTCLASS 
-#define FAUSTCLASS Tremolo
+#define FAUSTCLASS Phaser
 #endif
 
-class Tremolo : public dsp {
+class Phaser : public dsp {
 	
   private:
 	
 	int fSamplingFreq;
 	int iVec0[2];
-	float fRec0[2];
-	float fRec3[2];
-	float fRec1[2];
-	float fRec2[2];
-	float fRec4[2];
+	float fRec4[3];
+	float fRec3[3];
+	float fRec2[3];
+	float fRec1[3];
+	float fRec13[3];
+	float fRec12[3];
+	float fRec11[3];
+	float fRec10[3];
+	float fRec7[2];
+	float fRec5[2];
+	float fRec6[2];
+	float fRec8[2];
 	FAUSTFLOAT fButton0;
-	FAUSTFLOAT fHslider0;
 	float fConst0;
+	float fConst1;
+	float fConst2;
+	float fConst3;
+	float fConst4;
+	float fConst5;
+	FAUSTFLOAT fHslider0;
+	float fConst6;
+	float fConst7;
+	float fConst8;
 	FAUSTFLOAT fHslider1;
-	FAUSTFLOAT fHslider2;
 	
   public:
 	
@@ -710,6 +728,8 @@ class Tremolo : public dsp {
 		m->declare("math.lib/version", "2.0");
 		m->declare("miscoscillator.lib/name", "Faust Oscillator Library");
 		m->declare("miscoscillator.lib/version", "0.0");
+		m->declare("phafla.lib/name", "Faust Phaser and Flanger Library");
+		m->declare("phafla.lib/version", "0.0");
 		m->declare("signal.lib/name", "Faust Signal Routing Library");
 		m->declare("signal.lib/version", "0.0");
 	}
@@ -769,15 +789,22 @@ class Tremolo : public dsp {
 	
 	virtual void instanceConstants(int samplingFreq) {
 		fSamplingFreq = samplingFreq;
-		fConst0 = (6.28318548f / min(192000.0f, max(1.0f, float(fSamplingFreq))));
+		fConst0 = min(192000.0f, max(1.0f, float(fSamplingFreq)));
+		fConst1 = expf((0.0f - (3141.59277f / fConst0)));
+		fConst2 = (0.0f - (2.0f * fConst1));
+		fConst3 = faustpower2_f(fConst1);
+		fConst4 = (1.5f / fConst0);
+		fConst5 = (6.28318548f / fConst0);
+		fConst6 = (2.25f / fConst0);
+		fConst7 = (3.375f / fConst0);
+		fConst8 = (5.0625f / fConst0);
 		
 	}
 	
 	virtual void instanceResetUserInterface() {
 		fButton0 = FAUSTFLOAT(0.0f);
-		fHslider0 = FAUSTFLOAT(0.0f);
-		fHslider1 = FAUSTFLOAT(5.0f);
-		fHslider2 = FAUSTFLOAT(1.0f);
+		fHslider0 = FAUSTFLOAT(0.5f);
+		fHslider1 = FAUSTFLOAT(1.0f);
 		
 	}
 	
@@ -787,23 +814,51 @@ class Tremolo : public dsp {
 			
 		}
 		for (int i1 = 0; (i1 < 2); i1 = (i1 + 1)) {
-			fRec0[i1] = 0.0f;
+			fRec7[i1] = 0.0f;
 			
 		}
 		for (int i2 = 0; (i2 < 2); i2 = (i2 + 1)) {
-			fRec3[i2] = 0.0f;
+			fRec5[i2] = 0.0f;
 			
 		}
 		for (int i3 = 0; (i3 < 2); i3 = (i3 + 1)) {
-			fRec1[i3] = 0.0f;
+			fRec6[i3] = 0.0f;
 			
 		}
-		for (int i4 = 0; (i4 < 2); i4 = (i4 + 1)) {
-			fRec2[i4] = 0.0f;
+		for (int i4 = 0; (i4 < 3); i4 = (i4 + 1)) {
+			fRec4[i4] = 0.0f;
 			
 		}
-		for (int i5 = 0; (i5 < 2); i5 = (i5 + 1)) {
-			fRec4[i5] = 0.0f;
+		for (int i5 = 0; (i5 < 3); i5 = (i5 + 1)) {
+			fRec3[i5] = 0.0f;
+			
+		}
+		for (int i6 = 0; (i6 < 3); i6 = (i6 + 1)) {
+			fRec2[i6] = 0.0f;
+			
+		}
+		for (int i7 = 0; (i7 < 3); i7 = (i7 + 1)) {
+			fRec1[i7] = 0.0f;
+			
+		}
+		for (int i8 = 0; (i8 < 2); i8 = (i8 + 1)) {
+			fRec8[i8] = 0.0f;
+			
+		}
+		for (int i9 = 0; (i9 < 3); i9 = (i9 + 1)) {
+			fRec13[i9] = 0.0f;
+			
+		}
+		for (int i10 = 0; (i10 < 3); i10 = (i10 + 1)) {
+			fRec12[i10] = 0.0f;
+			
+		}
+		for (int i11 = 0; (i11 < 3); i11 = (i11 + 1)) {
+			fRec11[i11] = 0.0f;
+			
+		}
+		for (int i12 = 0; (i12 < 3); i12 = (i12 + 1)) {
+			fRec10[i12] = 0.0f;
 			
 		}
 		
@@ -819,8 +874,8 @@ class Tremolo : public dsp {
 		instanceClear();
 	}
 	
-	virtual Tremolo* clone() {
-		return new Tremolo();
+	virtual Phaser* clone() {
+		return new Phaser();
 	}
 	
 	virtual int getSampleRate() {
@@ -828,11 +883,10 @@ class Tremolo : public dsp {
 	}
 	
 	virtual void buildUserInterface(UI* ui_interface) {
-		ui_interface->openHorizontalBox("tremolo");
-		ui_interface->addHorizontalSlider("depth", &fHslider0, 0.0f, 0.0f, 1.0f, 0.00999999978f);
-		ui_interface->addHorizontalSlider("frequency", &fHslider1, 5.0f, 0.100000001f, 15.0f, 0.00999999978f);
-		ui_interface->addHorizontalSlider("gain", &fHslider2, 1.0f, 0.0f, 1.0f, 0.00999999978f);
+		ui_interface->openHorizontalBox("phaser");
+		ui_interface->addHorizontalSlider("gain", &fHslider1, 1.0f, 0.0f, 1.0f, 0.00999999978f);
 		ui_interface->addButton("gate",&fButton0);
+		ui_interface->addHorizontalSlider("speed", &fHslider0, 0.5f, 0.0f, 10.0f, 0.00100000005f);
 		ui_interface->closeBox();
 		
 	}
@@ -842,29 +896,63 @@ class Tremolo : public dsp {
 		FAUSTFLOAT* input1 = inputs[1];
 		FAUSTFLOAT* output0 = outputs[0];
 		FAUSTFLOAT* output1 = outputs[1];
-		float fSlow0 = float(fButton0);
+		float fSlow0 = (0.5f * float(fButton0));
 		float fSlow1 = (0.00100000005f * float(fHslider0));
 		float fSlow2 = (0.00100000005f * float(fHslider1));
-		float fSlow3 = (0.00100000005f * float(fHslider2));
 		for (int i = 0; (i < count); i = (i + 1)) {
+			float fTemp0 = float(input0[i]);
 			iVec0[0] = 1;
-			fRec0[0] = (fSlow1 + (0.999000013f * fRec0[1]));
-			fRec3[0] = (fSlow2 + (0.999000013f * fRec3[1]));
-			float fTemp0 = (fConst0 * fRec3[0]);
-			float fTemp1 = sinf(fTemp0);
-			float fTemp2 = cosf(fTemp0);
-			fRec1[0] = ((fRec2[1] * fTemp1) + (fRec1[1] * fTemp2));
-			fRec2[0] = (((fRec2[1] * fTemp2) + (fRec1[1] * (0.0f - fTemp1))) + float((1 - iVec0[1])));
-			fRec4[0] = (fSlow3 + (0.999000013f * fRec4[1]));
-			float fTemp3 = ((1.0f - (0.5f * (fRec0[0] * (fRec1[0] + 1.0f)))) * fRec4[0]);
-			output0[i] = FAUSTFLOAT((fSlow0 * (fTemp3 * float(input0[i]))));
-			output1[i] = FAUSTFLOAT((fSlow0 * (fTemp3 * float(input1[i]))));
+			fRec7[0] = (fSlow1 + (0.999000013f * fRec7[1]));
+			float fTemp1 = (fConst5 * fRec7[0]);
+			float fTemp2 = sinf(fTemp1);
+			float fTemp3 = cosf(fTemp1);
+			fRec5[0] = ((fRec6[1] * fTemp2) + (fRec5[1] * fTemp3));
+			fRec6[0] = (((fRec6[1] * fTemp3) + (fRec5[1] * (0.0f - fTemp2))) + float((1 - iVec0[1])));
+			float fTemp4 = ((2199.11475f * (1.0f - fRec5[0])) + 628.318542f);
+			float fTemp5 = (fRec4[1] * cosf((fConst4 * fTemp4)));
+			fRec4[0] = (fTemp0 - ((fConst3 * fRec4[2]) + (fConst2 * fTemp5)));
+			float fTemp6 = (fRec3[1] * cosf((fConst6 * fTemp4)));
+			fRec3[0] = ((fRec4[2] + (fConst2 * (fTemp5 - fTemp6))) - (fConst3 * (fRec3[2] - fRec4[0])));
+			float fTemp7 = (fRec2[1] * cosf((fConst7 * fTemp4)));
+			fRec2[0] = ((fRec3[2] + (fConst2 * (fTemp6 - fTemp7))) - (fConst3 * (fRec2[2] - fRec3[0])));
+			float fTemp8 = (fRec1[1] * cosf((fConst8 * fTemp4)));
+			fRec1[0] = ((fRec2[2] + (fConst2 * (fTemp7 - fTemp8))) - (fConst3 * (fRec1[2] - fRec2[0])));
+			float fRec0 = ((fConst2 * fTemp8) + (fRec1[2] + (fConst3 * fRec1[0])));
+			fRec8[0] = (fSlow2 + (0.999000013f * fRec8[1]));
+			output0[i] = FAUSTFLOAT((fSlow0 * ((fRec0 + fTemp0) * fRec8[0])));
+			float fTemp9 = float(input1[i]);
+			float fTemp10 = ((2199.11475f * (1.0f - fRec6[0])) + 628.318542f);
+			float fTemp11 = (fRec13[1] * cosf((fConst4 * fTemp10)));
+			fRec13[0] = (fTemp9 - ((fConst3 * fRec13[2]) + (fConst2 * fTemp11)));
+			float fTemp12 = (fRec12[1] * cosf((fConst6 * fTemp10)));
+			fRec12[0] = ((fRec13[2] + (fConst2 * (fTemp11 - fTemp12))) - (fConst3 * (fRec12[2] - fRec13[0])));
+			float fTemp13 = (fRec11[1] * cosf((fConst7 * fTemp10)));
+			fRec11[0] = ((fRec12[2] + (fConst2 * (fTemp12 - fTemp13))) - (fConst3 * (fRec11[2] - fRec12[0])));
+			float fTemp14 = (fRec10[1] * cosf((fConst8 * fTemp10)));
+			fRec10[0] = ((fRec11[2] + (fConst2 * (fTemp13 - fTemp14))) - (fConst3 * (fRec10[2] - fRec11[0])));
+			float fRec9 = ((fConst2 * fTemp14) + (fRec10[2] + (fConst3 * fRec10[0])));
+			output1[i] = FAUSTFLOAT((fSlow0 * (fRec8[0] * (fRec9 + fTemp9))));
 			iVec0[1] = iVec0[0];
-			fRec0[1] = fRec0[0];
-			fRec3[1] = fRec3[0];
-			fRec1[1] = fRec1[0];
-			fRec2[1] = fRec2[0];
+			fRec7[1] = fRec7[0];
+			fRec5[1] = fRec5[0];
+			fRec6[1] = fRec6[0];
+			fRec4[2] = fRec4[1];
 			fRec4[1] = fRec4[0];
+			fRec3[2] = fRec3[1];
+			fRec3[1] = fRec3[0];
+			fRec2[2] = fRec2[1];
+			fRec2[1] = fRec2[0];
+			fRec1[2] = fRec1[1];
+			fRec1[1] = fRec1[0];
+			fRec8[1] = fRec8[0];
+			fRec13[2] = fRec13[1];
+			fRec13[1] = fRec13[0];
+			fRec12[2] = fRec12[1];
+			fRec12[1] = fRec12[0];
+			fRec11[2] = fRec11[1];
+			fRec11[1] = fRec11[0];
+			fRec10[2] = fRec10[1];
+			fRec10[1] = fRec10[0];
 			
 		}
 		

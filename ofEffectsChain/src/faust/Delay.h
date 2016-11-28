@@ -688,6 +688,7 @@ class Delay : public dsp {
 	int IOTA;
 	int fSamplingFreq;
 	float fRec0[131072];
+	float fRec4[131072];
 	float fRec1[2];
 	float fRec2[2];
 	float fRec3[2];
@@ -712,17 +713,21 @@ class Delay : public dsp {
 	}
 
 	virtual int getNumInputs() {
-		return 1;
+		return 2;
 		
 	}
 	virtual int getNumOutputs() {
-		return 1;
+		return 2;
 		
 	}
 	virtual int getInputRate(int channel) {
 		int rate;
 		switch (channel) {
 			case 0: {
+				rate = 1;
+				break;
+			}
+			case 1: {
 				rate = 1;
 				break;
 			}
@@ -739,6 +744,10 @@ class Delay : public dsp {
 		int rate;
 		switch (channel) {
 			case 0: {
+				rate = 1;
+				break;
+			}
+			case 1: {
 				rate = 1;
 				break;
 			}
@@ -788,6 +797,10 @@ class Delay : public dsp {
 			fRec3[i3] = 0.0f;
 			
 		}
+		for (int i4 = 0; (i4 < 131072); i4 = (i4 + 1)) {
+			fRec4[i4] = 0.0f;
+			
+		}
 		
 	}
 	
@@ -811,8 +824,8 @@ class Delay : public dsp {
 	
 	virtual void buildUserInterface(UI* ui_interface) {
 		ui_interface->openVerticalBox("delay");
-		ui_interface->addHorizontalSlider("Duration", &fHslider0, 0.5f, 0.0f, 1.0f, 0.00999999978f);
-		ui_interface->addHorizontalSlider("Feedback", &fHslider1, 0.0f, 0.0f, 1.0f, 0.00999999978f);
+		ui_interface->addHorizontalSlider("duration", &fHslider0, 0.5f, 0.0f, 1.0f, 0.00999999978f);
+		ui_interface->addHorizontalSlider("feedback", &fHslider1, 0.0f, 0.0f, 1.0f, 0.00999999978f);
 		ui_interface->addHorizontalSlider("gain", &fHslider2, 1.0f, 0.0f, 1.0f, 0.00999999978f);
 		ui_interface->addButton("gate",&fButton0);
 		ui_interface->closeBox();
@@ -821,17 +834,22 @@ class Delay : public dsp {
 	
 	virtual void compute(int count, FAUSTFLOAT** inputs, FAUSTFLOAT** outputs) {
 		FAUSTFLOAT* input0 = inputs[0];
+		FAUSTFLOAT* input1 = inputs[1];
 		FAUSTFLOAT* output0 = outputs[0];
+		FAUSTFLOAT* output1 = outputs[1];
 		float fSlow0 = float(fButton0);
 		float fSlow1 = (0.00100000005f * float(fHslider0));
 		float fSlow2 = (0.00100000005f * float(fHslider1));
 		float fSlow3 = (0.00100000005f * float(fHslider2));
 		for (int i = 0; (i < count); i = (i + 1)) {
 			fRec1[0] = (fSlow1 + (0.999000013f * fRec1[1]));
+			int iTemp0 = ((int(((fConst0 * fRec1[0]) + -1.0f)) & 65535) + 1);
 			fRec2[0] = (fSlow2 + (0.999000013f * fRec2[1]));
-			fRec0[(IOTA & 131071)] = ((fRec0[((IOTA - ((int(((fConst0 * fRec1[0]) + -1.0f)) & 65535) + 1)) & 131071)] * fRec2[0]) + float(input0[i]));
+			fRec0[(IOTA & 131071)] = ((fRec0[((IOTA - iTemp0) & 131071)] * fRec2[0]) + float(input0[i]));
 			fRec3[0] = (fSlow3 + (0.999000013f * fRec3[1]));
 			output0[i] = FAUSTFLOAT((fSlow0 * (fRec0[((IOTA - 0) & 131071)] * fRec3[0])));
+			fRec4[(IOTA & 131071)] = ((fRec2[0] * fRec4[((IOTA - iTemp0) & 131071)]) + float(input1[i]));
+			output1[i] = FAUSTFLOAT((fSlow0 * (fRec3[0] * fRec4[((IOTA - 0) & 131071)])));
 			fRec1[1] = fRec1[0];
 			fRec2[1] = fRec2[0];
 			IOTA = (IOTA + 1);

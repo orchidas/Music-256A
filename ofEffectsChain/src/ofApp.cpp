@@ -4,11 +4,10 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
-    ofSetFullscreen(true);
+    //ofSetFullscreen(true);
 
     std::cout << "Testing:" << endl;
     effc.setup();
-    effc.test();
     label.load("pacifico/Pacifico.ttf", 18);
 
 
@@ -16,13 +15,10 @@ void ofApp::setup(){
     //need this to bind textures
     ofDisableArbTex();
 
-    input.setup(30,make_tuple(0.0,0.0),"input.bmp", ofColor(255,255,255));
+    input.setup(30,make_tuple(0.0,0.0),"input.bmp");
     g.setup("gun_texture.png",(0.85*ofGetWindowWidth())/2 + 0.15*ofGetWindowWidth(),0);
 
     effects = effc.getEffects();
-    maxEffects = effc.getNumEffects();
-
-
 
     //audio initialisation
 
@@ -34,7 +30,6 @@ void ofApp::setup(){
 
     //setup sound stream
     soundStream.setup(this, MY_CHANNELS, MY_CHANNELS, MY_SRATE, MY_BUFFERSIZE, MY_NBUFFERS);
-    //myMutex = new ofMutex[maxEffects];
 
     dist.init(MY_SRATE);
     dist.buildUserInterface(&distControl);
@@ -46,6 +41,34 @@ void ofApp::setup(){
     tremControl.setParamValue("/tremolo/gain", effects[1].getParamValue("1-gain"));
     tremControl.setParamValue("/tremolo/gate", 0);
     tremControl.setParamValue("/tremolo/depth", effects[1].getParamValue("2-depth"));
+
+    del.init(MY_SRATE);
+    del.buildUserInterface(&delayControl);
+    delayControl.setParamValue("/delay/gain", effects[2].getParamValue("1-gain"));
+    delayControl.setParamValue("/delay/gate", 0);
+    delayControl.setParamValue("/delay/duration", effects[2].getParamValue("2-delayMs"));
+
+    phase.init(MY_SRATE);
+    phase.buildUserInterface(&phaseControl);
+    phaseControl.setParamValue("/phaser/gain", effects[3].getParamValue("1-gain"));
+    phaseControl.setParamValue("/phaser/gate", 0);
+
+    wah.init(MY_SRATE);
+    wah.buildUserInterface(&wahControl);
+    wahControl.setParamValue("/wah/gain", effects[4].getParamValue("1-gain"));
+    wahControl.setParamValue("/wah/gate", 0);
+
+    flange.init(MY_SRATE);
+    flange.buildUserInterface(&flangeControl);
+    flangeControl.setParamValue("/flanger/gain", effects[5].getParamValue("1-gain"));
+    flangeControl.setParamValue("/flanger/gate", 0);
+    flangeControl.setParamValue("/flanger/depth", effects[5].getParamValue("2-level"));
+
+    chor.init(MY_SRATE);
+    chor.buildUserInterface(&chorControl);
+    chorControl.setParamValue("/chorus/gain", effects[6].getParamValue("1-gain"));
+    chorControl.setParamValue("/chorus/gate", 0);
+    chorControl.setParamValue("/chorus/level", effects[6].getParamValue("2-depth"));
 
 
 }
@@ -60,11 +83,13 @@ void ofApp::update(){
         }
     }
 
-    distControl.setParamValue("/distortion/gate", effects[0].getOnOff());
     distControl.setParamValue("/distortion/drive", effects[0].getParamValue("0-drive"));
-
-    tremControl.setParamValue("/tremolo/gate", effects[1].getOnOff());
     tremControl.setParamValue("/tremolo/frequency", effects[1].getParamValue("0-frequency"));
+    delayControl.setParamValue("/delay/feedback", effects[2].getParamValue("0-feedback"));
+    phaseControl.setParamValue("/phase/speed", effects[3].getParamValue("0-speed"));
+    wahControl.setParamValue("/wah/level", effects[4].getParamValue("0-level"));
+    flangeControl.setParamValue("/flanger/maxDelay", effects[5].getParamValue("0-maxDelay"));
+    chorControl.setParamValue("/chorus/freq", effects[6].getParamValue("0-freq"));
 
 }
 
@@ -74,10 +99,10 @@ void ofApp::draw(){
     ofPushMatrix();
 
     ofBackgroundGradient(ofColor(218,28,148), ofColor(0,0,0), OF_GRADIENT_CIRCULAR);
-    ofPushStyle();
+    /*ofPushStyle();
         ofSetColor(220,220,220);
-        label.drawString("Effects", 0.08*ofGetWindowWidth() - 35, 50.0);
-    ofPopStyle();
+        label.drawString("Effects", 0.08*ofGetWindowWidth() - 35, 30.0);
+    ofPopStyle();*/
 
     //draw line that separates effects circle from menu
     ofPushMatrix(); 
@@ -169,7 +194,17 @@ void ofApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-    effc.finalizePosition(x,y);
+
+    effc.finalizePosition();
+
+    distControl.setParamValue("/distortion/gate", effects[0].getOnOff());
+    tremControl.setParamValue("/tremolo/gate", effects[1].getOnOff());
+    delayControl.setParamValue("/delay/gate", effects[2].getOnOff());
+    phaseControl.setParamValue("/phaser/gate", effects[3].getOnOff());
+    wahControl.setParamValue("/wah/gate", effects[4].getOnOff());
+    flangeControl.setParamValue("/flanger/gate",effects[5].getOnOff());
+    chorControl.setParamValue("/chorus/gate",effects[6].getOnOff());
+
 }
 
 //--------------------------------------------------------------
@@ -199,8 +234,8 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 void ofApp::audioIn(float * input, int bufferSize, int nChannels){
     for (int j = 0; j < bufferSize; j++){
-            lAudio[j]         = input[j*2];
-            rAudio[j]        =  input[j*2+1];
+            lAudio[j] = input[j*2];
+            rAudio[j] =  input[j*2+1];
     }
 }
 
@@ -208,11 +243,27 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels){
 
     //keep audio thread seperate from graphics thread
     myMutex.lock();
-    dist.compute(bufferSize, audioBuffer, audioBuffer);
-    //myMutex.unlock();
+    if(distControl.getParamValue("/distortion/gate") == 1)
+        dist.compute(bufferSize, audioBuffer, audioBuffer);
 
-    //myMutex.lock();
-    trem.compute(bufferSize, audioBuffer, audioBuffer);
+    if(tremControl.getParamValue("/tremolo/gate") == 1)
+        trem.compute(bufferSize, audioBuffer, audioBuffer);
+
+    if(delayControl.getParamValue("/delay/gate") == 1)
+        del.compute(bufferSize, audioBuffer, audioBuffer);
+
+    if(phaseControl.getParamValue("/phaser/gate") == 1)
+        phase.compute(bufferSize, audioBuffer, audioBuffer);
+
+    if(wahControl.getParamValue("/wah/gate") == 1)
+        wah.compute(bufferSize, audioBuffer, audioBuffer);
+
+    if(flangeControl.getParamValue("/flanger/gate") == 1)
+        flange.compute(bufferSize, audioBuffer, audioBuffer);
+
+    if(chorControl.getParamValue("/chorus/gate") == 1)
+        chor.compute(bufferSize, audioBuffer, audioBuffer);
+
     myMutex.unlock();
 
     // Interleave the output buffer
@@ -226,5 +277,5 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels){
 void ofApp::exit(){
     delete []audioBuffer;
     delete []effects;
-    //delete []myMutex;
+    soundStream.close();
 }

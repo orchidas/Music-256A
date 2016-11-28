@@ -2,8 +2,8 @@
 Code generated with Faust 2.0.a51 (http://faust.grame.fr)
 ------------------------------------------------------------ */
 
-#ifndef  __Tremolo_H__
-#define  __Tremolo_H__
+#ifndef  __Chorus_H__
+#define  __Chorus_H__
 
 #ifndef FAUSTFLOAT
 #define FAUSTFLOAT float
@@ -677,39 +677,115 @@ class dsp_factory {
 #include <math.h>
 
 
+class ChorusSIG0 {
+	
+  private:
+	
+	int iRec5[2];
+	
+  public:
+	
+	int getNumInputsChorusSIG0() {
+		return 0;
+		
+	}
+	int getNumOutputsChorusSIG0() {
+		return 1;
+		
+	}
+	int getInputRateChorusSIG0(int channel) {
+		int rate;
+		switch (channel) {
+			default: {
+				rate = -1;
+				break;
+			}
+			
+		}
+		return rate;
+		
+	}
+	int getOutputRateChorusSIG0(int channel) {
+		int rate;
+		switch (channel) {
+			case 0: {
+				rate = 0;
+				break;
+			}
+			default: {
+				rate = -1;
+				break;
+			}
+			
+		}
+		return rate;
+		
+	}
+	
+	void instanceInitChorusSIG0(int samplingFreq) {
+		for (int i6 = 0; (i6 < 2); i6 = (i6 + 1)) {
+			iRec5[i6] = 0;
+			
+		}
+		
+	}
+	
+	void fillChorusSIG0(int count, float* output) {
+		for (int i = 0; (i < count); i = (i + 1)) {
+			iRec5[0] = (iRec5[1] + 1);
+			output[i] = sinf((9.58738019e-05f * float((iRec5[0] + -1))));
+			iRec5[1] = iRec5[0];
+			
+		}
+		
+	}
+};
+
+ChorusSIG0* newChorusSIG0() { return (ChorusSIG0*)new ChorusSIG0(); }
+void deleteChorusSIG0(ChorusSIG0* dsp) { delete dsp; }
+
+static float ftbl0ChorusSIG0[65536];
+
 #ifndef FAUSTCLASS 
-#define FAUSTCLASS Tremolo
+#define FAUSTCLASS Chorus
 #endif
 
-class Tremolo : public dsp {
+class Chorus : public dsp {
 	
   private:
 	
 	int fSamplingFreq;
-	int iVec0[2];
+	int IOTA;
+	float fVec0[65536];
+	float fVec1[65536];
 	float fRec0[2];
-	float fRec3[2];
 	float fRec1[2];
 	float fRec2[2];
 	float fRec4[2];
+	float fRec3[2];
+	float fRec6[2];
 	FAUSTFLOAT fButton0;
 	FAUSTFLOAT fHslider0;
 	float fConst0;
+	float fConst1;
 	FAUSTFLOAT fHslider1;
 	FAUSTFLOAT fHslider2;
+	float fConst2;
+	FAUSTFLOAT fHslider3;
+	FAUSTFLOAT fHslider4;
 	
   public:
 	
 	void metadata(Meta* m) { 
-		m->declare("filter.lib/name", "Faust Filter Library");
-		m->declare("filter.lib/version", "2.0");
+		m->declare("basic.lib/name", "Faust Basic Element Library");
+		m->declare("basic.lib/version", "0.0");
+		m->declare("delay.lib/name", "Faust Delay Library");
+		m->declare("delay.lib/version", "0.0");
 		m->declare("math.lib/author", "GRAME");
 		m->declare("math.lib/copyright", "GRAME");
 		m->declare("math.lib/license", "LGPL with exception");
 		m->declare("math.lib/name", "Faust Math Library");
 		m->declare("math.lib/version", "2.0");
-		m->declare("miscoscillator.lib/name", "Faust Oscillator Library");
-		m->declare("miscoscillator.lib/version", "0.0");
 		m->declare("signal.lib/name", "Faust Signal Routing Library");
 		m->declare("signal.lib/version", "0.0");
 	}
@@ -764,46 +840,63 @@ class Tremolo : public dsp {
 	}
 	
 	static void classInit(int samplingFreq) {
+		ChorusSIG0* sig0 = newChorusSIG0();
+		sig0->instanceInitChorusSIG0(samplingFreq);
+		sig0->fillChorusSIG0(65536, ftbl0ChorusSIG0);
+		deleteChorusSIG0(sig0);
 		
 	}
 	
 	virtual void instanceConstants(int samplingFreq) {
 		fSamplingFreq = samplingFreq;
-		fConst0 = (6.28318548f / min(192000.0f, max(1.0f, float(fSamplingFreq))));
+		fConst0 = min(192000.0f, max(1.0f, float(fSamplingFreq)));
+		fConst1 = (0.5f * fConst0);
+		fConst2 = (1.0f / fConst0);
 		
 	}
 	
 	virtual void instanceResetUserInterface() {
 		fButton0 = FAUSTFLOAT(0.0f);
-		fHslider0 = FAUSTFLOAT(0.0f);
-		fHslider1 = FAUSTFLOAT(5.0f);
-		fHslider2 = FAUSTFLOAT(1.0f);
+		fHslider0 = FAUSTFLOAT(0.5f);
+		fHslider1 = FAUSTFLOAT(0.025000000000000001f);
+		fHslider2 = FAUSTFLOAT(0.02f);
+		fHslider3 = FAUSTFLOAT(2.0f);
+		fHslider4 = FAUSTFLOAT(1.0f);
 		
 	}
 	
 	virtual void instanceClear() {
 		for (int i0 = 0; (i0 < 2); i0 = (i0 + 1)) {
-			iVec0[i0] = 0;
+			fRec0[i0] = 0.0f;
 			
 		}
-		for (int i1 = 0; (i1 < 2); i1 = (i1 + 1)) {
-			fRec0[i1] = 0.0f;
+		IOTA = 0;
+		for (int i1 = 0; (i1 < 65536); i1 = (i1 + 1)) {
+			fVec0[i1] = 0.0f;
 			
 		}
 		for (int i2 = 0; (i2 < 2); i2 = (i2 + 1)) {
-			fRec3[i2] = 0.0f;
+			fRec1[i2] = 0.0f;
 			
 		}
 		for (int i3 = 0; (i3 < 2); i3 = (i3 + 1)) {
-			fRec1[i3] = 0.0f;
+			fRec2[i3] = 0.0f;
 			
 		}
 		for (int i4 = 0; (i4 < 2); i4 = (i4 + 1)) {
-			fRec2[i4] = 0.0f;
+			fRec4[i4] = 0.0f;
 			
 		}
 		for (int i5 = 0; (i5 < 2); i5 = (i5 + 1)) {
-			fRec4[i5] = 0.0f;
+			fRec3[i5] = 0.0f;
+			
+		}
+		for (int i7 = 0; (i7 < 2); i7 = (i7 + 1)) {
+			fRec6[i7] = 0.0f;
+			
+		}
+		for (int i8 = 0; (i8 < 65536); i8 = (i8 + 1)) {
+			fVec1[i8] = 0.0f;
 			
 		}
 		
@@ -819,8 +912,8 @@ class Tremolo : public dsp {
 		instanceClear();
 	}
 	
-	virtual Tremolo* clone() {
-		return new Tremolo();
+	virtual Chorus* clone() {
+		return new Chorus();
 	}
 	
 	virtual int getSampleRate() {
@@ -828,11 +921,13 @@ class Tremolo : public dsp {
 	}
 	
 	virtual void buildUserInterface(UI* ui_interface) {
-		ui_interface->openHorizontalBox("tremolo");
-		ui_interface->addHorizontalSlider("depth", &fHslider0, 0.0f, 0.0f, 1.0f, 0.00999999978f);
-		ui_interface->addHorizontalSlider("frequency", &fHslider1, 5.0f, 0.100000001f, 15.0f, 0.00999999978f);
-		ui_interface->addHorizontalSlider("gain", &fHslider2, 1.0f, 0.0f, 1.0f, 0.00999999978f);
+		ui_interface->openHorizontalBox("chorus");
+		ui_interface->addHorizontalSlider("delay", &fHslider1, 0.0250000004f, 0.0f, 0.200000003f, 0.00100000005f);
+		ui_interface->addHorizontalSlider("depth", &fHslider2, 0.0199999996f, 0.0f, 1.0f, 0.00100000005f);
+		ui_interface->addHorizontalSlider("freq", &fHslider3, 2.0f, 0.0f, 10.0f, 0.00999999978f);
+		ui_interface->addHorizontalSlider("gain", &fHslider4, 1.0f, 0.0f, 1.0f, 0.00999999978f);
 		ui_interface->addButton("gate",&fButton0);
+		ui_interface->addHorizontalSlider("level", &fHslider0, 0.5f, 0.0f, 1.0f, 0.00999999978f);
 		ui_interface->closeBox();
 		
 	}
@@ -846,25 +941,39 @@ class Tremolo : public dsp {
 		float fSlow1 = (0.00100000005f * float(fHslider0));
 		float fSlow2 = (0.00100000005f * float(fHslider1));
 		float fSlow3 = (0.00100000005f * float(fHslider2));
+		float fSlow4 = (0.00100000005f * float(fHslider3));
+		float fSlow5 = (0.00100000005f * float(fHslider4));
 		for (int i = 0; (i < count); i = (i + 1)) {
-			iVec0[0] = 1;
 			fRec0[0] = (fSlow1 + (0.999000013f * fRec0[1]));
-			fRec3[0] = (fSlow2 + (0.999000013f * fRec3[1]));
-			float fTemp0 = (fConst0 * fRec3[0]);
-			float fTemp1 = sinf(fTemp0);
-			float fTemp2 = cosf(fTemp0);
-			fRec1[0] = ((fRec2[1] * fTemp1) + (fRec1[1] * fTemp2));
-			fRec2[0] = (((fRec2[1] * fTemp2) + (fRec1[1] * (0.0f - fTemp1))) + float((1 - iVec0[1])));
-			fRec4[0] = (fSlow3 + (0.999000013f * fRec4[1]));
-			float fTemp3 = ((1.0f - (0.5f * (fRec0[0] * (fRec1[0] + 1.0f)))) * fRec4[0]);
-			output0[i] = FAUSTFLOAT((fSlow0 * (fTemp3 * float(input0[i]))));
-			output1[i] = FAUSTFLOAT((fSlow0 * (fTemp3 * float(input1[i]))));
-			iVec0[1] = iVec0[0];
+			float fTemp0 = float(input0[i]);
+			fVec0[(IOTA & 65535)] = fTemp0;
+			fRec1[0] = (fSlow2 + (0.999000013f * fRec1[1]));
+			fRec2[0] = (fSlow3 + (0.999000013f * fRec2[1]));
+			fRec4[0] = (fSlow4 + (0.999000013f * fRec4[1]));
+			float fTemp1 = (fRec3[1] + (fConst2 * fRec4[0]));
+			fRec3[0] = (fTemp1 - floorf(fTemp1));
+			float fTemp2 = (65536.0f * (fRec3[0] - floorf(fRec3[0])));
+			float fTemp3 = floorf(fTemp2);
+			int iTemp4 = int(fTemp3);
+			float fTemp5 = (fConst1 * (fRec1[0] * ((fRec2[0] * (((fTemp3 + (1.0f - fTemp2)) * ftbl0ChorusSIG0[(iTemp4 & 65535)]) + ((fTemp2 - fTemp3) * ftbl0ChorusSIG0[((iTemp4 + 1) & 65535)]))) + 1.0f)));
+			int iTemp6 = int(fTemp5);
+			int iTemp7 = (iTemp6 & 65535);
+			float fTemp8 = floorf(fTemp5);
+			float fTemp9 = (fTemp8 + (1.0f - fTemp5));
+			float fTemp10 = (fTemp5 - fTemp8);
+			int iTemp11 = ((iTemp6 + 1) & 65535);
+			fRec6[0] = (fSlow5 + (0.999000013f * fRec6[1]));
+			output0[i] = FAUSTFLOAT((fSlow0 * (((fRec0[0] * ((fVec0[((IOTA - iTemp7) & 65535)] * fTemp9) + (fTemp10 * fVec0[((IOTA - iTemp11) & 65535)]))) + fTemp0) * fRec6[0])));
+			float fTemp12 = float(input1[i]);
+			fVec1[(IOTA & 65535)] = fTemp12;
+			output1[i] = FAUSTFLOAT((fSlow0 * (fRec6[0] * ((fRec0[0] * ((fTemp9 * fVec1[((IOTA - iTemp7) & 65535)]) + (fTemp10 * fVec1[((IOTA - iTemp11) & 65535)]))) + fTemp12))));
 			fRec0[1] = fRec0[0];
-			fRec3[1] = fRec3[0];
+			IOTA = (IOTA + 1);
 			fRec1[1] = fRec1[0];
 			fRec2[1] = fRec2[0];
 			fRec4[1] = fRec4[0];
+			fRec3[1] = fRec3[0];
+			fRec6[1] = fRec6[0];
 			
 		}
 		

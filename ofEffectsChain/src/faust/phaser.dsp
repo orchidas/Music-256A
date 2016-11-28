@@ -1,6 +1,7 @@
 import("stdfaust.lib");
 
 Notches = 4;
+phase = 0;
 width = 1000;
 frqmin = 100;
 fratio = 1.5;
@@ -12,5 +13,5 @@ depth = 1;
 fb = 0;
 invert = 0;
 
-process = hgroup("phaser", pf.phaser2_stereo(Notches,width,frqmin,fratio,frqmax,speed,depth,fb,invert) * gain * gate);
+process = hgroup("phaser", pf.phaser2_mono(Notches,phase, width,frqmin,fratio,frqmax,speed,depth,fb,invert) * gain * gate);
 

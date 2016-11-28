@@ -54,11 +54,14 @@ public:
     }
 
     float getParamValue(const string& name){
-        if(paramMap.find(name) == paramMap.end()){
-            throw "Parameter does not exist for this effect!";
+        try{
+            if(paramMap.find(name) == paramMap.end())
+                throw "Parameter does not exist for this effect!";
         }
-        else
-            return paramMap[name];
+        catch(const char* e){
+            return -99.99;
+        }
+        return paramMap[name];
     }
 
     void setMaxMinValues(tuple<float, float> mm){

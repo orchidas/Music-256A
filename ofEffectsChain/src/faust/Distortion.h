@@ -694,6 +694,8 @@ class Distortion : public dsp {
 	float fVec0[2];
 	float fRec0[2];
 	float fRec3[2];
+	float fVec1[2];
+	float fRec4[2];
 	FAUSTFLOAT fButton0;
 	FAUSTFLOAT fHslider0;
 	FAUSTFLOAT fHslider1;
@@ -709,17 +711,21 @@ class Distortion : public dsp {
 	}
 
 	virtual int getNumInputs() {
-		return 1;
+		return 2;
 		
 	}
 	virtual int getNumOutputs() {
-		return 1;
+		return 2;
 		
 	}
 	virtual int getInputRate(int channel) {
 		int rate;
 		switch (channel) {
 			case 0: {
+				rate = 1;
+				break;
+			}
+			case 1: {
 				rate = 1;
 				break;
 			}
@@ -736,6 +742,10 @@ class Distortion : public dsp {
 		int rate;
 		switch (channel) {
 			case 0: {
+				rate = 1;
+				break;
+			}
+			case 1: {
 				rate = 1;
 				break;
 			}
@@ -787,6 +797,14 @@ class Distortion : public dsp {
 			fRec3[i4] = 0.0f;
 			
 		}
+		for (int i5 = 0; (i5 < 2); i5 = (i5 + 1)) {
+			fVec1[i5] = 0.0f;
+			
+		}
+		for (int i6 = 0; (i6 < 2); i6 = (i6 + 1)) {
+			fRec4[i6] = 0.0f;
+			
+		}
 		
 	}
 	
@@ -820,7 +838,9 @@ class Distortion : public dsp {
 	
 	virtual void compute(int count, FAUSTFLOAT** inputs, FAUSTFLOAT** outputs) {
 		FAUSTFLOAT* input0 = inputs[0];
+		FAUSTFLOAT* input1 = inputs[1];
 		FAUSTFLOAT* output0 = outputs[0];
+		FAUSTFLOAT* output1 = outputs[1];
 		float fSlow0 = float(fButton0);
 		float fSlow1 = (0.00100000005f * float(fHslider0));
 		float fSlow2 = (0.00100000005f * float(fHslider1));
@@ -828,17 +848,25 @@ class Distortion : public dsp {
 		for (int i = 0; (i < count); i = (i + 1)) {
 			fRec1[0] = (fSlow1 + (0.999000013f * fRec1[1]));
 			fRec2[0] = (fSlow2 + (0.999000013f * fRec2[1]));
-			float fTemp0 = max(-1.0f, min(1.0f, ((fRec1[0] + float(input0[i])) * powf(10.0f, (2.0f * fRec2[0])))));
-			float fTemp1 = (fTemp0 * (1.0f - (0.333333343f * faustpower2_f(fTemp0))));
-			fVec0[0] = fTemp1;
-			fRec0[0] = (((0.995000005f * fRec0[1]) + fTemp1) - fVec0[1]);
+			float fTemp0 = powf(10.0f, (2.0f * fRec2[0]));
+			float fTemp1 = max(-1.0f, min(1.0f, ((fRec1[0] + float(input0[i])) * fTemp0)));
+			float fTemp2 = (fTemp1 * (1.0f - (0.333333343f * faustpower2_f(fTemp1))));
+			fVec0[0] = fTemp2;
+			fRec0[0] = (((0.995000005f * fRec0[1]) + fTemp2) - fVec0[1]);
 			fRec3[0] = (fSlow3 + (0.999000013f * fRec3[1]));
 			output0[i] = FAUSTFLOAT((fSlow0 * (fRec0[0] * fRec3[0])));
+			float fTemp3 = max(-1.0f, min(1.0f, (fTemp0 * (fRec1[0] + float(input1[i])))));
+			float fTemp4 = (fTemp3 * (1.0f - (0.333333343f * faustpower2_f(fTemp3))));
+			fVec1[0] = fTemp4;
+			fRec4[0] = (((0.995000005f * fRec4[1]) + fTemp4) - fVec1[1]);
+			output1[i] = FAUSTFLOAT((fSlow0 * (fRec3[0] * fRec4[0])));
 			fRec1[1] = fRec1[0];
 			fRec2[1] = fRec2[0];
 			fVec0[1] = fVec0[0];
 			fRec0[1] = fRec0[0];
 			fRec3[1] = fRec3[0];
+			fVec1[1] = fVec1[0];
+			fRec4[1] = fRec4[0];
 			
 		}
 		

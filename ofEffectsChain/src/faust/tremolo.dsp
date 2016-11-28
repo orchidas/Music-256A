@@ -10,4 +10,4 @@ with{
 	depth = hslider("depth",0,0,1,0.01) : si.smoo;
 };
 
-process = hgroup("tremolo", tremolo*gain*gate);
+process = hgroup("tremolo", par(i,2,tremolo*gain*gate));

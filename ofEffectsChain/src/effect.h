@@ -27,13 +27,13 @@ public:
     }
     ~Effect(){}
 
-    void setup(string &n,const string &p_img, bool on, float r, tuple<float,float> centerCoordinates,
-              map<const string, float> parameters, tuple<float,float> minMaxofParam, ofColor color){
+    void setup(string &n,const string &p_img, bool on, float r,
+              map<const string, float> parameters, tuple<float,float> minMaxofParam){
         setName(n);
         setOnOff(on);
         setIsPressed(false);
         createParameterList(parameters);
-        circle.setup(r, centerCoordinates, p_img, color);
+        circle.setup(r, make_tuple(0.0,0.0), p_img);
         param.setMaxMinValues(minMaxofParam);
 
     }
@@ -107,9 +107,6 @@ public:
         map<const string, float> paramList = getParamList();
         map<const string, float> :: iterator it = paramList.begin();
         keyList = it->first;
-        /*for(map<const string, float> :: iterator it = paramList.begin(); it != paramList.end();it++){
-            keyList.push_back(it->first);
-        }*/
         setParam(keyList, ofMap(pathRad, 30, 500, get<0>(param.getMinMaxValues()) ,get<1>(param.getMinMaxValues())));
         cout << keyList << " new value:" << getParamValue(keyList) << endl;
     }
@@ -172,7 +169,7 @@ public:
         ofPushStyle();
             ofNoFill();
             ofSetLineWidth(2);
-            ofSetColor(107,12,55);
+            ofSetColor(107,12,55, 100);
             ofSetCircleResolution(100);
             ofDrawCircle(0,0,pathRad);
         ofPopStyle();

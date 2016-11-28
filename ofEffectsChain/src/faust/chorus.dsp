@@ -1,11 +1,11 @@
 
 import("stdfaust.lib");
 
-level	= hslider("level", 0.5, 0, 1, 0.01);
+level	= hslider("level", 0.5, 0, 1, 0.01) : si.smoo;
 //control this parameter freq
-freq	= hslider("freq", 2, 0, 10, 0.01);
-dtime	= hslider("delay", 0.025, 0, 0.2, 0.001);
-depth	= hslider("depth", 0.02, 0, 1, 0.001);
+freq	= hslider("freq", 2, 0, 10, 0.01) : si.smoo;
+dtime	= hslider("delay", 0.025, 0, 0.2, 0.001) : si.smoo;
+depth	= hslider("depth", 0.02, 0, 1, 0.001) : si.smoo;
 gain = hslider("gain",1,0,1,0.01) : si.smoo;
 gate = button("gate");
 
@@ -23,5 +23,5 @@ with {
 chorus(d,freq,depth)	= de.fdelay(1<<16, t)
 with {	t		= ma.SR*d/2*(1+depth*tblosc(1<<16, sin, freq, 0)); };
 
-process			= hgroup("chorus", (c, c) * gain * gate)
+process			= hgroup("chorus", (c, c) : *(gain * gate), *(gain*gate))
 with { c(x) = x+level*chorus(dtime,freq,depth,x); };

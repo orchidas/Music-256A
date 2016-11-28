@@ -24,7 +24,7 @@ public:
 
     ~Circle(){}
 
-    void setup(float radius, tuple<float,float> center, const string &p_img, ofColor color){
+    void setup(float radius, tuple<float,float> center, const string &p_img){
         setRadius(radius);
         setCenter(center);
         setImage(p_img);
@@ -88,7 +88,7 @@ public:
         ofPushMatrix();
         bindImg.bind();
         ofPushStyle();
-        ofSetColor(color);
+        ofSetColor(ofColor(220,220,220));
         mesh.draw();
         ofPopStyle();
         ofPushStyle();

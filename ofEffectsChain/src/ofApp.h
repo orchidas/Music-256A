@@ -3,9 +3,13 @@
 #include "ofMain.h"
 #include "effect.h"
 #include "circle.h"
-#include "Distortion.h"
-#include "Tremolo.h"
-#include "Delay.h"
+#include "faust/Distortion.h"
+#include "faust/Tremolo.h"
+#include "faust/Delay.h"
+#include "faust/Phaser.h"
+#include "faust/Wah.h"
+#include "faust/Flanger.h"
+#include "faust/Chorus.h"
 #include "gun.h"
 #include "laser.h"
 #include<string>
@@ -19,10 +23,9 @@ using namespace std;
 //-----------------------------------------------------------------------------
 // Preprocessor definitions
 //-----------------------------------------------------------------------------
-#define MY_SRATE         44100           // sample rate
+#define MY_SRATE         48000           // sample rate
 #define MY_CHANNELS      2                // number of channels
-#define MY_BUFFERHISTORY 50               // number of buffers to save
-#define MY_BUFFERSIZE    512              // number of frames in a buffer
+#define MY_BUFFERSIZE    256              // number of frames in a buffer
 #define MY_NBUFFERS      2                // number of buffers latency
 
 class EffectsChain{
@@ -33,6 +36,10 @@ public:
         effectsName[0] = "Distortion";
         effectsName[1] = "Tremolo";
         effectsName[2] = "Delay";
+        effectsName[3] = "Phaser";
+        effectsName[4] = "Wah";
+        effectsName[5] = "Flanger";
+        effectsName[6] = "Chorus";
 
     }
     ~EffectsChain(){
@@ -46,27 +53,50 @@ public:
 
         map<const string, float> distParam;
         distParam["0-drive"] = 0.5;
-        distParam["1-gain"] = 1.0/maxEffects;
-        vecOfParamMaps.push_back(distParam);
+        distParam["1-gain"] = 0.3; //distortion is too loud otherwise
 
         map<const string, float> tremParam;
         tremParam["0-frequency"] = 5;
-        tremParam["1-gain"] = 1.0/maxEffects;
-        tremParam["2-depth"] = 0.5;
-        vecOfParamMaps.push_back(tremParam);
+        tremParam["1-gain"] = 0.8; //maxEffects;
+        tremParam["2-depth"] = 1.0;
 
         map<const string, float> delayParam;
         delayParam["0-feedback"] = 0.2;
-        delayParam["1-gain"] = 1.0/maxEffects;
-        delayParam["2-delayMs"] = 10.0;
-        vecOfParamMaps.push_back(delayParam);
+        delayParam["1-gain"] = 0.8; //maxEffects;
+        delayParam["2-delayMs"] = 0.5;
+
+        map<const string, float> phaseParam;
+        phaseParam["0-speed"] = 0.5;
+        phaseParam["1-gain"] = 0.8; //maxEffects;
+
+        map<const string, float> wahParam;
+        wahParam["0-level"] = 0.5;
+        wahParam["1-gain"] = 0.8; //maxEffects;
+
+        map<const string, float> flangeParam;
+        flangeParam["0-maxDelay"] = 10;
+        flangeParam["1-gain"] = 0.8;
+        flangeParam["2-level"] = 0.5;
+
+        map<const string, float> chorusParam;
+        chorusParam["0-freq"] = 2;
+        chorusParam["1-gain"] = 0.8;
+        chorusParam["2-depth"] = 0.5;
 
         effects[0].setup(effectsName[0], "distortion.jpeg", false, effcRad,
-                         make_tuple(100.0, 500.0), distParam, make_tuple(0.0,1.0), ofColor(220,220,220));
+                        distParam, make_tuple(0.0,1.0));
         effects[1].setup(effectsName[1], "tremolo.jpg", false, effcRad,
-                         make_tuple(200.0, 500.0), tremParam, make_tuple(0.1,15.0), ofColor(220,220,220));
+                         tremParam, make_tuple(0.1,15.0));
         effects[2].setup(effectsName[2], "delay.jpg", false, effcRad,
-                         make_tuple(300.0, 500.0), delayParam, make_tuple(0.0,1.0), ofColor(220,220,220));
+                         delayParam, make_tuple(0.0,1.0));
+        effects[3].setup(effectsName[3], "phaser.jpg", false, effcRad,
+                         phaseParam, make_tuple(0.0, 10.0));
+        effects[4].setup(effectsName[4], "wah.jpg", false, effcRad,
+                         wahParam, make_tuple(0.4, 1.0));
+        effects[5].setup(effectsName[5], "flanger.jpg", false, effcRad,
+                         flangeParam, make_tuple(0, 20));
+        effects[6].setup(effectsName[6], "chorus.jpg", false, effcRad,
+                         chorusParam, make_tuple(0, 10));
 
         //load text font here
         myEffectLabel.load("pacifico/Pacifico.ttf", 12);
@@ -74,34 +104,21 @@ public:
 
     }
 
-    void test(){
-        for(int i=0;i < maxEffects; i++){
-            cout << effectsName[i] << " parameters :" << endl;
-            map<const string, float> myparams = effects[i].getParamList();
-             for(map<const string, float> :: iterator it = myparams.begin(); it!= myparams.end(); it++){
-                 cout << it->first << " value: " << it->second << endl;
-             }
-        }
-    }
 
     //return array of all effects
     Effect* getEffects(){
         return effects;
     }
 
-    int getNumEffects(){
-        return maxEffects;
-    }
-
     void update(){
         for(int i=0;i< maxEffects;i++){
             if(!effects[i].getIsPressed() && !effects[i].getOnOff()){
                 //effect stays in menu-bar
-                effects[i].setCenter(make_tuple(0.08*ofGetWindowWidth(), ofGetWindowHeight()/maxEffects * i + 150));
+                effects[i].setCenter(make_tuple(0.08*ofGetWindowWidth(), ofGetWindowHeight()/maxEffects * i + 35));
                 //add labels to effects in menu bar
                 ofPushStyle();
                     ofSetColor(200,200,200);
-                    myEffectLabel.drawString(effectsName[i], 0.08*ofGetWindowWidth()- effcRad + 5, ofGetWindowHeight()/maxEffects * i + 150.0 + effcRad + 25);
+                    myEffectLabel.drawString(effectsName[i], 0.08*ofGetWindowWidth()- effcRad + 5, ofGetWindowHeight()/maxEffects * i + 35 + effcRad + 25);
                 ofPopStyle();
             }     
             else if(!effects[i].getIsPressed() && effects[i].getOnOff()){
@@ -142,10 +159,10 @@ public:
         }
     }
 
-    void finalizePosition(int x, int y){
+    void finalizePosition(){
         for(int i=0;i< maxEffects;i++){
             if(effects[i].getIsPressed()){
-                effects[i].setOnOff(checkIfInsideMenu(i, x));
+                effects[i].setOnOff(checkIfInsideMenu(i));
                 effects[i].setIsPressed(false);
                 //this needs to be called to set effect parameter value according to new radius
                 effects[i].changeParameter();
@@ -153,8 +170,9 @@ public:
         }
     }
 
-    bool checkIfInsideMenu(int i,int mouseX){
-        if(mouseX < 0.2*ofGetWindowWidth()){
+
+    bool checkIfInsideMenu(int i){
+        if(get<0>(effects[i].getCenter()) - effects[i].getRadius() < 0.15*ofGetWindowWidth()){
            cout << effects[i].getName() << " should be turned off" << endl;
            return false;
         }
@@ -182,10 +200,9 @@ public:
 
 private:
     Effect *effects;
-    const int maxEffects = 3;
+    const int maxEffects = 7;
     string *effectsName;
     float effcRad;
-    vector<map<const string, float>> vecOfParamMaps;
     ofTrueTypeFont myEffectLabel;
 
 };
@@ -221,7 +238,6 @@ private:
     vector<Laser> l;
     ofTrueTypeFont label;
     Effect *effects;
-    int maxEffects;
 
     //all audio objects
     vector<float> lAudio;
@@ -238,7 +254,20 @@ private:
     Tremolo trem;
     MapUI tremControl;
 
+    Delay del;
+    MapUI delayControl;
 
+    Phaser phase;
+    MapUI phaseControl;
+
+    Wah wah;
+    MapUI wahControl;
+
+    Flanger flange;
+    MapUI flangeControl;
+
+    Chorus chor;
+    MapUI chorControl;
 
 };
 
