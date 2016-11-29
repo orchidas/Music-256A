@@ -12,6 +12,7 @@
 #include "faust/Chorus.h"
 #include "gun.h"
 #include "laser.h"
+#include "ofxStk.h"
 #include<string>
 #include<vector>
 #include<map>
@@ -23,7 +24,7 @@ using namespace std;
 //-----------------------------------------------------------------------------
 // Preprocessor definitions
 //-----------------------------------------------------------------------------
-#define MY_SRATE         48000           // sample rate
+#define MY_SRATE         44100           // sample rate
 #define MY_CHANNELS      2                // number of channels
 #define MY_BUFFERSIZE    256              // number of frames in a buffer
 #define MY_NBUFFERS      2                // number of buffers latency
@@ -238,12 +239,16 @@ private:
     vector<Laser> l;
     ofTrueTypeFont label;
     Effect *effects;
+    bool record;
+    bool play;
 
     //all audio objects
     vector<float> lAudio;
     vector<float> rAudio;
 
     ofSoundStream soundStream;
+    stk::FileWvOut rec;
+    stk::FileLoop loop;
     float **audioBuffer;
     ofMutex myMutex;
 

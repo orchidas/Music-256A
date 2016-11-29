@@ -8,7 +8,7 @@ void ofApp::setup(){
 
     std::cout << "Testing:" << endl;
     effc.setup();
-    label.load("pacifico/Pacifico.ttf", 18);
+    label.load("pacifico/Pacifico.ttf", 12);
 
 
     ofEnableDepthTest();
@@ -19,6 +19,9 @@ void ofApp::setup(){
     g.setup("gun_texture.png",(0.85*ofGetWindowWidth())/2 + 0.15*ofGetWindowWidth(),0);
 
     effects = effc.getEffects();
+    record = false;
+    play = false;
+
 
     //audio initialisation
 
@@ -30,6 +33,11 @@ void ofApp::setup(){
 
     //setup sound stream
     soundStream.setup(this, MY_CHANNELS, MY_CHANNELS, MY_SRATE, MY_BUFFERSIZE, MY_NBUFFERS);
+    //initialise Stk objects
+    stk::Stk::setSampleRate((float)MY_SRATE);
+
+    //rec.openFile(ofToDataPath("\recording\rec.wav", true), 2, stk::FileWrite::FILE_WAV, stk::Stk::STK_SINT16);
+    //loop.openFile(ofToDataPath("\recording\rec.wav", true));
 
     dist.init(MY_SRATE);
     dist.buildUserInterface(&distControl);
@@ -144,6 +152,61 @@ void ofApp::draw(){
         }
     }
 
+    //draw record button
+    ofPushMatrix();
+        ofFill();
+        ofPushStyle();
+        if(!record)
+            ofSetColor(85,4,101);
+        else{
+            ofSetColor(38,29,40);
+            ofPushStyle();
+            ofSetColor(200,200,200);
+            ofDrawBitmapString("Recording..", ofGetWindowWidth()*0.85/2 + 0.15*ofGetWindowWidth(),
+                               0.95*ofGetWindowHeight());
+            ofPopStyle();
+        }
+        ofDrawRectangle(0.15*ofGetWindowWidth() + 50, 20, 70, 30);
+
+        ofSetColor(200,200,200);
+        ofNoFill();
+        ofDrawRectangle(0.15*ofGetWindowWidth() + 50, 20, 70, 30);
+        ofPopStyle();
+
+        ofPushStyle();
+        ofSetColor(155,155,155);
+        label.drawString("Record", 0.15*ofGetWindowWidth() + 60, 40);
+        ofPopStyle();
+    ofPopMatrix();
+
+    //draw play button
+    ofPushMatrix();
+        ofFill();
+        ofPushStyle();
+        if(!play)
+            ofSetColor(85,4,101);
+        else{
+            ofSetColor(38,29,40);
+            ofPushStyle();
+            ofSetColor(200,200,200);
+            ofDrawBitmapString("Playing loop..", ofGetWindowWidth()*0.85/2 + 0.15*ofGetWindowWidth(),
+                               0.95*ofGetWindowHeight());
+            ofPopStyle();
+        }
+
+        ofDrawRectangle(ofGetWindowWidth() - 100, 20, 70, 30);
+
+        ofSetColor(200,200,200);
+        ofNoFill();
+        ofDrawRectangle(ofGetWindowWidth() - 100, 20, 70, 30);
+        ofPopStyle();
+
+        ofPushStyle();
+        ofSetColor(155,155,155);
+        label.drawString("Play", ofGetWindowWidth() - 80, 40);
+        ofPopStyle();
+    ofPopMatrix();
+
 
 }
 
@@ -190,6 +253,52 @@ void ofApp::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
     effc.checkIfEffectSelected(x,y);
+
+    //check if record or play button is pressed
+    if(x >= 0.15*ofGetWindowWidth() + 50 && x <= 0.15*ofGetWindowWidth() + 50 + 70 &&
+            y >= 20 && y <= 50){
+
+        //cannot record if playing
+        if(!play){
+            if(!record){
+                cout << "recording" << endl;
+                rec.openFile(ofToDataPath("rec.wav", true), 2, stk::FileWrite::FILE_WAV, stk::Stk::STK_SINT16);
+                record = true;
+            }
+            else{
+                cout << "finished recording" << endl;
+                rec.closeFile();
+                record = false;
+            }
+        }
+    }
+
+    //check if play button is pressed
+    if(x >= ofGetWindowWidth() - 100 && x <= ofGetWindowWidth() -100 + 70 &&
+            y >= 20 && y <= 50){
+
+        if(!record){
+            if(!play){
+                cout << "playing" << endl;
+                //first make sure Stk doesn't throw any error because file to be played doesn't exist
+                try{
+                    loop.openFile(ofToDataPath("rec.wav",true));
+                }
+                catch(stk::StkError e){
+                    cout << e.getMessage() << endl;
+                    play = false;
+                }
+                loop.normalize(0.5);
+                play = true;
+            }
+            else{
+                cout << "finished playing" << endl;
+                loop.closeFile();
+                play = false;
+            }
+        }
+    }
+
 }
 
 //--------------------------------------------------------------
@@ -237,6 +346,19 @@ void ofApp::audioIn(float * input, int bufferSize, int nChannels){
             lAudio[j] = input[j*2];
             rAudio[j] =  input[j*2+1];
     }
+
+    //Stk FileWvOut tick method computed here
+    if(record){
+        stk::StkFrames frames(bufferSize,2);
+        for (int i = 0; i < bufferSize; i++){
+            frames(i,0) = input[i*2];
+            frames(i,1) =  input[i*2 + 1];
+        }
+
+        rec.tick(frames);
+    }
+
+
 }
 
 void ofApp::audioOut(float * output, int bufferSize, int nChannels){
@@ -266,16 +388,37 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels){
 
     myMutex.unlock();
 
-    // Interleave the output buffer
+    //play audio loop if button is pressed
+    if(play){
+        stk::StkFrames frames(bufferSize,2);
+        loop.tick(frames);
+        for (int i = 0; i < bufferSize; i++)
+        {
+            output[2*i] = frames(i,0) + lAudio[i]; //audioBuffer[0][i];
+            output[2*i+1] = frames(i,1) + rAudio[i]; //audioBuffer[1][i];
+        }
+    }
+    else{
         for (int i = 0; i < bufferSize; i++)
         {
             output[2*i] = lAudio[i]; //audioBuffer[0][i];
             output[2*i+1] = rAudio[i]; //audioBuffer[1][i];
         }
+    }
 }
 
 void ofApp::exit(){
     delete []audioBuffer;
     delete []effects;
     soundStream.close();
+    rec.closeFile();
+    loop.closeFile();
+
+    //delete wave file created
+    try{
+        remove("rec.wav");
+    }
+    catch(const char* e){
+        cout << "File did not exist!" << endl;
+    }
 }

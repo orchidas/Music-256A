@@ -37,12 +37,9 @@ private:
 
 class Parameter{
 public:
-    Parameter(){
-        //paramMap = map<const string, float>();
-    }
+    Parameter(){}
     ~Parameter(){
         paramMap.clear();
-        //delete paramMap;
     }
 
     void setParam(const string &name, float val){
