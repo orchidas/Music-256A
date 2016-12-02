@@ -6,7 +6,6 @@ void ofApp::setup(){
 
     //ofSetFullscreen(true);
 
-    std::cout << "Testing:" << endl;
     effc.setup();
     label.load("pacifico/Pacifico.ttf", 12);
 
@@ -27,17 +26,15 @@ void ofApp::setup(){
 
     lAudio.assign(MY_BUFFERSIZE, 0.0);
     rAudio.assign(MY_BUFFERSIZE, 0.0);
-    audioBuffer = new float*[2];
+    audioBuffer = new float*[MY_OUT_CHANNELS];
     audioBuffer[0] = &lAudio[0];
     audioBuffer[1] = &rAudio[0];
 
     //setup sound stream
-    soundStream.setup(this, MY_CHANNELS, MY_CHANNELS, MY_SRATE, MY_BUFFERSIZE, MY_NBUFFERS);
+    soundStream.setup(this, MY_OUT_CHANNELS,MY_OUT_CHANNELS, MY_SRATE, MY_BUFFERSIZE, MY_NBUFFERS);
     //initialise Stk objects
     stk::Stk::setSampleRate((float)MY_SRATE);
 
-    //rec.openFile(ofToDataPath("\recording\rec.wav", true), 2, stk::FileWrite::FILE_WAV, stk::Stk::STK_SINT16);
-    //loop.openFile(ofToDataPath("\recording\rec.wav", true));
 
     dist.init(MY_SRATE);
     dist.buildUserInterface(&distControl);
@@ -78,6 +75,10 @@ void ofApp::setup(){
     chorControl.setParamValue("/chorus/gate", 0);
     chorControl.setParamValue("/chorus/level", effects[6].getParamValue("2-depth"));
 
+    //setup osc receiver
+    receiver.setup( PORT );
+    thetaPrev = 0;
+    thetaCur = 0;
 
 }
 
@@ -99,6 +100,52 @@ void ofApp::update(){
     flangeControl.setParamValue("/flanger/maxDelay", effects[5].getParamValue("0-maxDelay"));
     chorControl.setParamValue("/chorus/freq", effects[6].getParamValue("0-freq"));
 
+    //check for OSC messages from Chuck
+    while(receiver.hasWaitingMessages()){
+        ofxOscMessage m;
+        receiver.getNextMessage(&m);
+
+        if(m.getAddress() == "/ofEffects/game_track_values"){
+            thetaPrev = thetaCur;
+            xaxis = m.getArgAsFloat(0);
+            yaxis = m.getArgAsFloat(1);
+            zaxis = m.getArgAsFloat(2);
+
+            //update gun's position
+            //calculate elevation angle of spherical coordinate system
+            thetaCur = atan2(yaxis, xaxis);
+            cout << "Elevation angle :" << thetaCur*180/PI << endl;
+            //this is just to make sure that at the beginning,
+            //gun doesn't move due to initial value of theta.
+            if(180/PI * abs(thetaCur - thetaPrev) > 1){
+                float offset = 0;
+                //if(thetaCur >= 0 && thetaCur <= PI)
+                //move gun left or right depending on clockwise or anticlockwise
+                //motion of gametrack
+                if(thetaCur - thetaPrev > 0)
+                    offset = 10;
+                else
+                    offset = -10;
+                g.setOffset(g.getOffset() + offset);
+            }
+
+            //now see if foot pedal is pressed
+            int footPedal = m.getArgAsInt(6);
+            if(footPedal){
+                g.setShootMode(true);
+                Laser newLaser;
+                newLaser.setup("laser_texture.png", g.getRad()/2, 50);
+                l.push_back(newLaser);
+                l.back().setPosition(g.getPosition());
+            }
+            else
+                g.setShootMode(false);
+        }
+        else{
+            cout << "Osc message not recognised." << endl;
+        }
+    }
+
 }
 
 //--------------------------------------------------------------
@@ -107,10 +154,6 @@ void ofApp::draw(){
     ofPushMatrix();
 
     ofBackgroundGradient(ofColor(218,28,148), ofColor(0,0,0), OF_GRADIENT_CIRCULAR);
-    /*ofPushStyle();
-        ofSetColor(220,220,220);
-        label.drawString("Effects", 0.08*ofGetWindowWidth() - 35, 30.0);
-    ofPopStyle();*/
 
     //draw line that separates effects circle from menu
     ofPushMatrix(); 
@@ -262,7 +305,8 @@ void ofApp::mousePressed(int x, int y, int button){
         if(!play){
             if(!record){
                 cout << "recording" << endl;
-                rec.openFile(ofToDataPath("rec.wav", true), 2, stk::FileWrite::FILE_WAV, stk::Stk::STK_SINT16);
+                unsigned int nChannels = 2;
+                rec.openFile(ofToDataPath("rec.wav", true), nChannels, stk::FileWrite::FILE_WAV, stk::Stk::STK_SINT16);
                 record = true;
             }
             else{
@@ -282,17 +326,17 @@ void ofApp::mousePressed(int x, int y, int button){
                 cout << "playing" << endl;
                 //first make sure Stk doesn't throw any error because file to be played doesn't exist
                 try{
+                    loop.normalize(0.5);
                     loop.openFile(ofToDataPath("rec.wav",true));
                 }
                 catch(stk::StkError e){
                     cout << e.getMessage() << endl;
                     play = false;
                 }
-                loop.normalize(0.5);
                 play = true;
             }
             else{
-                cout << "finished playing" << endl;
+                cout << "finished playing" << endl;      
                 loop.closeFile();
                 play = false;
             }
@@ -344,20 +388,8 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 void ofApp::audioIn(float * input, int bufferSize, int nChannels){
     for (int j = 0; j < bufferSize; j++){
             lAudio[j] = input[j*2];
-            rAudio[j] =  input[j*2+1];
+            rAudio[j] =  input[j*2];
     }
-
-    //Stk FileWvOut tick method computed here
-    if(record){
-        stk::StkFrames frames(bufferSize,2);
-        for (int i = 0; i < bufferSize; i++){
-            frames(i,0) = input[i*2];
-            frames(i,1) =  input[i*2 + 1];
-        }
-
-        rec.tick(frames);
-    }
-
 
 }
 
@@ -390,20 +422,31 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels){
 
     //play audio loop if button is pressed
     if(play){
-        stk::StkFrames frames(bufferSize,2);
-        loop.tick(frames);
+        stk::StkFrames outframes(bufferSize,2);
+        loop.tick(outframes);
         for (int i = 0; i < bufferSize; i++)
         {
-            output[2*i] = frames(i,0) + lAudio[i]; //audioBuffer[0][i];
-            output[2*i+1] = frames(i,1) + rAudio[i]; //audioBuffer[1][i];
+            output[2*i] = 0.5*outframes(i,0) + lAudio[i]; //audioBuffer[0][i];
+            output[2*i+1] = 0.5*outframes(i,1) + rAudio[i]; //audioBuffer[1][i];
         }
     }
+
     else{
         for (int i = 0; i < bufferSize; i++)
         {
             output[2*i] = lAudio[i]; //audioBuffer[0][i];
             output[2*i+1] = rAudio[i]; //audioBuffer[1][i];
         }
+    }
+
+    if(record){
+        stk::StkFrames inframes(bufferSize,2);
+        for (int i = 0; i < bufferSize; i++){
+            inframes(i,0) = lAudio[i];
+            inframes(i,1) =  rAudio[i];
+        }
+
+        rec.tick(inframes);
     }
 }
 
@@ -415,10 +458,10 @@ void ofApp::exit(){
     loop.closeFile();
 
     //delete wave file created
-    try{
+    /*try{
         remove("rec.wav");
     }
     catch(const char* e){
         cout << "File did not exist!" << endl;
-    }
+    }*/
 }

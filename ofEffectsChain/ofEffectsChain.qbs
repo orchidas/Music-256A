@@ -23,6 +23,7 @@ Project{
 
         of.addons: [
             'ofxStk',
+            'ofxOsc',
 
         ]
 

@@ -13,6 +13,7 @@
 #include "gun.h"
 #include "laser.h"
 #include "ofxStk.h"
+#include "ofxOsc.h"
 #include<string>
 #include<vector>
 #include<map>
@@ -24,10 +25,12 @@ using namespace std;
 //-----------------------------------------------------------------------------
 // Preprocessor definitions
 //-----------------------------------------------------------------------------
-#define MY_SRATE         44100           // sample rate
-#define MY_CHANNELS      2                // number of channels
+#define MY_SRATE         44100            // sample rate
+#define MY_OUT_CHANNELS  2                // number of channels
 #define MY_BUFFERSIZE    256              // number of frames in a buffer
 #define MY_NBUFFERS      2                // number of buffers latency
+#define PORT             6448             //port to which chuck sends OSC messages
+#define PI               3.14159265358979323846
 
 class EffectsChain{
 public:
@@ -273,6 +276,12 @@ private:
 
     Chorus chor;
     MapUI chorControl;
+
+    //Osc receiver to receive gametrak values from chuck.
+    ofxOscReceiver receiver;
+    float xaxis, yaxis, zaxis;
+    float thetaPrev, thetaCur;
+
 
 };
 

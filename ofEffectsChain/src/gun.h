@@ -42,6 +42,9 @@ public:
         if(posX + off <= 0.2*ofGetWindowWidth()){
             offset = 0.2*ofGetWindowWidth() - posX;
         }
+        else if(posX + off >= 0.95 * ofGetWindowWidth()){
+            offset = 0.95 * ofGetWindowWidth() - posX;
+        }
         else{
             offset = off;
         }
@@ -75,9 +78,9 @@ public:
 
     void draw(){
         ofPushMatrix();
-        ofTranslate(offset, 0, 0);
+        //ofTranslate(0, 0, 0);
         texture.bind();
-        barrel.setPosition(posX , posY, 0);
+        barrel.setPosition(posX + offset , posY, 0);
         barrel.draw();
         texture.unbind();
         ofPopMatrix();

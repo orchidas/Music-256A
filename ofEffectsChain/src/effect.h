@@ -74,6 +74,13 @@ public:
         float x = (0.85*ofGetWindowWidth()/2 + 0.15*ofGetWindowWidth()) - get<0>(circle.getCenter());
         float y = (0.5*ofGetWindowHeight()) - get<1>(circle.getCenter());
         pathRad = sqrt(pow(x,2) + pow(y, 2));
+        //make sure radius doesn't exceed screen size
+        if(pathRad > ofGetWindowHeight()/2)
+            pathRad = ofGetWindowHeight()/2 - circle.getRadius();
+        //or doesn't crash into input
+        else if(pathRad <= circle.getRadius()){
+            pathRad = circle.getRadius()+20;
+        }
         //dunno why but only negating both x and y gives right angle
         pathAng = atan2(-y,-x);
     }
@@ -95,8 +102,8 @@ public:
         //initialise seed
         srand (time(NULL));
         //make sure the new radius stays withing screen limits
-        float newX = rand() % 90 + 80;
-        float newY = rand() % 90 + 80;
+        float newX = rand() % 100 - 100;
+        float newY = rand() % 100 - 100;
         circle.setCenter(make_tuple(centerX + newX, centerY+newY));
         setPathRadius();
         cout << "New path radius : " << pathRad << endl;

@@ -6,35 +6,6 @@
 #include<iterator>
 using namespace std;
 
-//class parameter contains effect parameters
-/*class Parameter{
-public:
-    Parameter(){
-    }
-
-    ~Parameter(){}
-
-    void setName(const string &n){
-        paramName = n;
-    }
-
-    const string & getName(){
-        return paramName;
-    }
-
-    void setValue(float val){
-        paramValue = val;
-    }
-
-    float getValue(){
-        return paramValue;
-    }
-
-private:
-    string paramName;
-    float paramValue;
-};*/
-
 class Parameter{
 public:
     Parameter(){}

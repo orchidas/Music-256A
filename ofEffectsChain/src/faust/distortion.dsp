@@ -12,5 +12,5 @@ with{
 	cubic(x) = x - pow(x,3)/3;
 };
 
-process = hgroup("distortion",par(i,2,distortion(d,o)*gain*gate));
+process = hgroup("distortion", par(i,2,distortion(d,o)*gain*gate));
 
