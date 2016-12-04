@@ -5,7 +5,7 @@
 <p>The audio input represents the nucleus of the cell. The effects that can be dragged and dropped represent electrons around it. The radius of the effect from the input determines its parameters. Thanks to Mark for the name! </p>
 
 <p align="center">
-  <img src="app screenshots/laser.png" width = "600" height = "350"/>
+  <img src="app screenshots/laser.png" width = "600"/>
 </p>
 
 <h2>Idea</h2>
