@@ -114,7 +114,7 @@ public:
         map<const string, float> paramList = getParamList();
         map<const string, float> :: iterator it = paramList.begin();
         keyList = it->first;
-        setParam(keyList, ofMap(pathRad, 30, 500, get<0>(param.getMinMaxValues()) ,get<1>(param.getMinMaxValues())));
+        setParam(keyList, ofMap(pathRad, 30, ofGetWindowHeight()/2, get<0>(param.getMinMaxValues()) ,get<1>(param.getMinMaxValues())));
         cout << keyList << " new value:" << getParamValue(keyList) << endl;
     }
 
@@ -185,7 +185,6 @@ public:
 
         //draw rotating effects
         circle.draw();
-
     }
 
 
