@@ -349,7 +349,158 @@ obj/linux64/Release/src/ofApp.o: \
  /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/libs/openFrameworks/3d/ofCamera.h \
  /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/libs/openFrameworks/3d/ofEasyCam.h \
  /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/effect.h \
- /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/parameter.h
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/parameter.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/circle.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/faust/Distortion.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/faust/Tremolo.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/faust/Delay.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/faust/Phaser.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/faust/Wah.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/faust/Flanger.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/faust/Chorus.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/gun.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/laser.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/src/ofxStk.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/ADSR.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Generator.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Stk.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Asymp.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BandedWG.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Instrmnt.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/DelayL.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Filter.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BowTable.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Function.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/ADSR.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BiQuad.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BeeThree.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FM.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FileLoop.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FileWvIn.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/WvIn.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FileRead.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/SineWave.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/TwoZero.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BiQuad.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Blit.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BlitSaw.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BlitSquare.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BlowBotl.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/JetTable.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/PoleZero.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Noise.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BlowHole.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/ReedTable.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/OneZero.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Envelope.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Bowed.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/OnePole.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BowTable.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Brass.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/DelayA.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/faust/Chorus.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Clarinet.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Cubic.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/faust/Delay.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/DelayA.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/DelayL.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Drummer.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Echo.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Effect.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Delay.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Effect.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Envelope.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FileLoop.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FileRead.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FileWrite.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FileWvIn.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FileWvOut.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/WvOut.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FileWrite.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Filter.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Fir.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Flute.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FM.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FMVoices.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FormSwep.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FreeVerb.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Function.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Generator.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Granulate.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/HevyMetl.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Iir.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Instrmnt.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/JCRev.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/JetTable.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/LentPitShift.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Mandolin.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Twang.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Fir.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Mesh2D.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/MidiFileIn.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Modal.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/ModalBar.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Modal.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Modulate.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Moog.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Sampler.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FormSwep.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Noise.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/NRev.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/OnePole.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/OneZero.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/PercFlut.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Phonemes.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/PitShift.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Plucked.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/PoleZero.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/PRCRev.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/ReedTable.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Resonate.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Rhodey.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Sampler.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Saxofony.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Shakers.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Simple.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/SineWave.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/SingWave.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Modulate.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Sitar.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Skini.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Sphere.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Vector3D.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/StifKarp.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Stk.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/TapDelay.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/TubeBell.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Twang.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/TwoPole.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/TwoZero.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Vector3D.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Voicer.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/VoicForm.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/SingWave.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Whistle.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Sphere.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Wurley.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/WvIn.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/WvOut.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/src/ofxOsc.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/src/ofxOscArg.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/src/ofxOscMessage.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/src/ofxOscSender.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/osc/OscOutboundPacketStream.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/osc/OscException.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/ip/UdpSocket.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/ip/NetworkingUtils.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/src/ofxOscBundle.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/src/ofxOscReceiver.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/osc/OscPacketListener.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.h \
+ /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/osc/../ip/PacketListener.h
 
 /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/ofApp.h:
 
@@ -1084,3 +1235,305 @@ obj/linux64/Release/src/ofApp.o: \
 /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/effect.h:
 
 /home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/parameter.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/circle.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/faust/Distortion.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/faust/Tremolo.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/faust/Delay.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/faust/Phaser.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/faust/Wah.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/faust/Flanger.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/faust/Chorus.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/gun.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/laser.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/src/ofxStk.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/ADSR.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Generator.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Stk.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Asymp.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BandedWG.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Instrmnt.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/DelayL.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Filter.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BowTable.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Function.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/ADSR.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BiQuad.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BeeThree.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FM.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FileLoop.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FileWvIn.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/WvIn.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FileRead.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/SineWave.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/TwoZero.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BiQuad.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Blit.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BlitSaw.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BlitSquare.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BlowBotl.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/JetTable.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/PoleZero.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Noise.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BlowHole.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/ReedTable.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/OneZero.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Envelope.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Bowed.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/OnePole.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/BowTable.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Brass.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/DelayA.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/faust/Chorus.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Clarinet.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Cubic.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/apps/myApps/ofEffectsChain/src/faust/Delay.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/DelayA.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/DelayL.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Drummer.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Echo.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Effect.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Delay.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Effect.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Envelope.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FileLoop.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FileRead.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FileWrite.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FileWvIn.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FileWvOut.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/WvOut.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FileWrite.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Filter.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Fir.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Flute.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FM.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FMVoices.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FormSwep.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FreeVerb.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Function.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Generator.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Granulate.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/HevyMetl.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Iir.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Instrmnt.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/JCRev.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/JetTable.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/LentPitShift.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Mandolin.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Twang.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Fir.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Mesh2D.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/MidiFileIn.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Modal.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/ModalBar.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Modal.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Modulate.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Moog.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Sampler.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/FormSwep.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Noise.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/NRev.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/OnePole.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/OneZero.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/PercFlut.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Phonemes.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/PitShift.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Plucked.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/PoleZero.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/PRCRev.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/ReedTable.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Resonate.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Rhodey.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Sampler.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Saxofony.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Shakers.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Simple.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/SineWave.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/SingWave.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Modulate.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Sitar.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Skini.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Sphere.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Vector3D.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/StifKarp.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Stk.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/TapDelay.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/TubeBell.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Twang.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/TwoPole.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/TwoZero.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Vector3D.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Voicer.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/VoicForm.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/SingWave.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Whistle.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Sphere.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/Wurley.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/WvIn.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxStk/libs/STK/include/WvOut.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/src/ofxOsc.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/src/ofxOscArg.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/src/ofxOscMessage.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/src/ofxOscSender.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/osc/OscOutboundPacketStream.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/osc/OscTypes.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/osc/OscException.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/ip/UdpSocket.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/ip/NetworkingUtils.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/src/ofxOscBundle.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/src/ofxOscReceiver.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/osc/OscPacketListener.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.h:
+
+/home/orchisama/Downloads/Software/of_v0.9.6_linux64_release/addons/ofxOsc/libs/oscpack/src/osc/../ip/PacketListener.h:

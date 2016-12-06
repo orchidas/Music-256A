@@ -4,7 +4,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
-    //ofSetFullscreen(true);
+    ofSetFullscreen(true);
 
     effc.setup();
     label.load("pacifico/Pacifico.ttf", 12);
@@ -311,8 +311,14 @@ void ofApp::mousePressed(int x, int y, int button){
             }
             else{
                 cout << "finished recording" << endl;
-                rec.closeFile();
-                record = false;
+                try{
+                    rec.closeFile();
+                    record = false;
+                }
+                catch(stk::StkError e){
+                    cout << e.getMessage() << endl;
+                }
+
             }
         }
     }
@@ -458,10 +464,10 @@ void ofApp::exit(){
     loop.closeFile();
 
     //delete wave file created
-    /*try{
+    try{
         remove("rec.wav");
     }
     catch(const char* e){
         cout << "File did not exist!" << endl;
-    }*/
+    }
 }

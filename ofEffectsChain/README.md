@@ -41,6 +41,7 @@ altering the sound.</li>
 
 <h2>Installation</h2>
 <ul><li>Clone this repository and place it in the apps folder of your OpenFrameworks installation.</li> <li>For Gametrak, go to ofEffectsChain/src/chuck and run the command 
-<i>chuck GametrakTetherToOSC.ck</i> in terminal. </li>  <li>On Linux, go to the project directory (which should have a Makefile) and type <i>make</i>. For other OS, use ProjectGenerator/QtCreator/XCode to compile and run.</li></ul>
+<i>chuck GametrakTetherToOSC.ck</i> in terminal. </li>  
+<li>On Linux/Mac, go to the project directory (which should have a Makefile) and type <i>make</i>. Or use ProjectGenerator/QtCreator to compile and run (this works for Windows too).</li></ul>
 
 <h3>That's all for now!</h3>
