@@ -6,5 +6,5 @@ list of assignments are
 <li> Assignment 2 - Subtractive synthesizer in JUCE. </li>
 <li> Assignment 3 - MIDI plugin synth in JUCE. </li>
 <li> Assignment 4 - Solar system app in OpenFrameworks. </li>
-<li> Final poject - Effectrons : Interactive guitar effects in OpenFrameworks. </li>
+<li> Final project - Effectrons : Interactive guitar effects in OpenFrameworks. </li>
 </ul>
